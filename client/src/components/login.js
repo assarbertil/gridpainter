@@ -39,15 +39,27 @@ export function Login() {
 
         <div className="flex flex-col gap-y-2 ">
           <label htmlFor="asdasdasd">Användarnamn :</label>
-          <input value={InputUsername} onChange={saveUsername} className="px-4 border rounded h-11 border-sky-300" />
+          <input
+            value={InputUsername}
+            onChange={saveUsername}
+            className="px-4 border rounded h-11 border-sky-300"
+          />
         </div>
 
         <div className="flex flex-col gap-y-2 ">
           <label>Lagnamn :</label>
-          <input value={InputTeam} onChange={saveTeam} className="px-4 border rounded h-11 border-sky-300" />
+          <input
+            value={InputTeam}
+            onChange={saveTeam}
+            className="px-4 border rounded h-11 border-sky-300"
+          />
         </div>
 
-        <button disabled={DisabledBtn} onClick={sendUserInfo} className="w-full rounded h-11 bg-sky-300">
+        <button
+          disabled={DisabledBtn}
+          onClick={sendUserInfo}
+          className="w-full rounded h-11 bg-sky-300"
+        >
           Spela
         </button>
       </form>

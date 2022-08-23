@@ -5,6 +5,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import { Login } from './components/login/login';
 import { Score } from './components/score/score';
 import { Main } from './components/main/main';
+import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

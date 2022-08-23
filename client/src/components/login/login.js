@@ -28,28 +28,32 @@ export function Login() {
   const sendUserInfo = () => {
     socket.connect();
     socket.emit("join", { InputTeam }, { InputUsername });
-    
+
     navigate("/main");
   };
-  
+
   return (
-    <div>
-      <div>
-        <h3>Logga in</h3>
-        <label>
-          Användarnamn :
-          <input value={InputUsername} onChange={saveUsername} />
-        </label>
-        <label>
-          Lagnamn :
-          <input value={InputTeam} onChange={saveTeam} />
-        </label>
-        <button disabled={DisabledBtn} onClick={sendUserInfo}>
+    <div className="flex items-center justify-center h-screen gap-x-16">
+      <form className="flex flex-col items-center pt-10 pb-24 border shadow-md rounded-xl bg-sky-50 px-14 border-sky-300 gap-y-5">
+        <h3 className="flex font-medium">Logga in</h3>
+
+        <div className="flex flex-col gap-y-2 ">
+          <label htmlFor="asdasdasd">Användarnamn :</label>
+          <input value={InputUsername} onChange={saveUsername} className="px-4 border rounded h-11 border-sky-300" />
+        </div>
+
+        <div className="flex flex-col gap-y-2 ">
+          <label>Lagnamn :</label>
+          <input value={InputTeam} onChange={saveTeam} className="px-4 border rounded h-11 border-sky-300" />
+        </div>
+
+        <button disabled={DisabledBtn} onClick={sendUserInfo} className="w-full rounded h-11 bg-sky-300">
           Spela
         </button>
-      </div>
+      </form>
+
       <div>
-        <h2>Välkommen till Gridpainter</h2>
+        <h2 className="mb-5 font-medium">Välkommen till Gridpainter</h2>
         <h3>Så här spelar du : </h3>
         <ul>
           <li>Välj ett användar namn och lag</li>

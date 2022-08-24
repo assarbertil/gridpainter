@@ -16,11 +16,29 @@ io.on("connection", (socket) => {
   console.log("socket is connected");
 
   socket.on("join", (team, userName) => {
+    // socket.emit(socket.id);
     console.log(team, userName);
     socket.join(team);
   });
+
+  // socket.on("userInfo", (userName, team) => {
+  //   console.log(x, y);
+  // });
+
   socket.on("addColor", (x, y) => {
     console.log(x, y);
+  });
+
+  socket.on("message", (inputChat, inputUsername, inputTeam) => {
+    console.log(
+      "Spelare:",
+      inputUsername,
+      " skrev:",
+      inputChat,
+      " till lag:",
+      inputTeam
+    );
+    io.in(inputTeam).emit("message", inputChat, inputUsername);
   });
 
   socket.to("others").emit("an event", { some: "data" });

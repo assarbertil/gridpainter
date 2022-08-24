@@ -27,7 +27,8 @@ export function Login() {
   // Sending info to socket
   const sendUserInfo = () => {
     socket.connect();
-    socket.emit("join", { InputTeam }, { InputUsername });
+
+    socket.emit("join", InputTeam, InputUsername);
 
     navigate("/main");
   };

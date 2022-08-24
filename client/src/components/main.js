@@ -1,3 +1,5 @@
+import {Grid } from "./grid" 
+
 export function Main() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
@@ -13,7 +15,7 @@ export function Main() {
           Chat
         </div>
         <div className="bg-white row-span-2 h-[32rem] w-[32rem] rounded-xl border border-sky-300 shadow-md">
-          Main
+          <Grid></Grid>
         </div>
         <div className="bg-white w-64 rounded-xl border border-sky-300 shadow-md">
           Results

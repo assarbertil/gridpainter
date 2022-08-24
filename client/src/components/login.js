@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
-const socket = io("ws://localhost:3001");
+import { socket } from "../lib/socket.js";
+
 export function Login() {
   const [DisabledBtn, setDisabledBtn] = useState(true);
   const [InputUsername, setInputUsername] = useState("");

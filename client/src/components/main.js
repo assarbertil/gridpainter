@@ -1,6 +1,14 @@
-import {Grid } from "./grid" 
+import { Grid } from "./grid";
+import { useState } from "react";
+import { empty } from "../empty.js";
+import { socket } from "../lib/socket.js";
 
+function handleClick(x, y) {
+  console.log(x, y);
+  socket.emit("addColor", x, y);
+}
 export function Main() {
+  const [color, setColor] = useState(() => empty);
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="flex justify-between items-center w-[32rem]">
@@ -15,7 +23,7 @@ export function Main() {
           Chat
         </div>
         <div className="bg-white row-span-2 h-[32rem] w-[32rem] rounded-xl border border-sky-300 shadow-md">
-          <Grid></Grid>
+          <Grid color={color} onClick={handleClick}></Grid>
         </div>
         <div className="bg-white w-64 rounded-xl border border-sky-300 shadow-md">
           Results

@@ -13,12 +13,13 @@ export const NameList = () => {
     return () => socket.off("roomData")
   }, [])
 
-  console.log(names)
-
   return (
     <div>
       <ul>
-        {names?.users && names.users.map(user => <li>{user.username}</li>)}
+        {names?.users &&
+          names.users.map((user, index) => (
+            <li key={`${index}:${user.username}`}>{user.username}</li>
+          ))}
       </ul>
     </div>
   )

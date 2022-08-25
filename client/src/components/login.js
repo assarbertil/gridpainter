@@ -1,37 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { socket } from "../lib/socket.js";
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useUserDetails } from "../context/UserDetailsContext.js"
+import { socket } from "../lib/socket.js"
 
 export function Login() {
-  const [DisabledBtn, setDisabledBtn] = useState(true);
-  const [InputUsername, setInputUsername] = useState("");
-  const [InputTeam, setInputTeam] = useState("");
+  const [DisabledBtn, setDisabledBtn] = useState(true)
+  const [InputUsername, setInputUsername] = useState("")
+  const [InputTeam, setInputTeam] = useState("")
+  const [userDetails, setUserDetails] = useUserDetails()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   // making button enabled
   useEffect(() => {
     if (InputUsername !== "" && InputTeam !== "") {
-      setDisabledBtn(false);
-    } else if (InputUsername === "" && InputTeam === "") setDisabledBtn(true);
-  }, [InputUsername && InputTeam]);
+      setDisabledBtn(false)
+    } else if (InputUsername === "" && InputTeam === "") setDisabledBtn(true)
+  }, [InputUsername && InputTeam])
 
   // Save inputvalues
-  const saveUsername = (e) => {
-    setInputUsername(e.target.value);
-  };
-  const saveTeam = (e) => {
-    setInputTeam(e.target.value);
-  };
+  const saveUsername = e => {
+    setInputUsername(e.target.value)
+  }
+  const saveTeam = e => {
+    setInputTeam(e.target.value)
+  }
 
   // Sending info to socket
   const sendUserInfo = () => {
-    socket.connect();
+    socket.connect()
 
-    socket.emit("join", InputTeam, InputUsername);
+    socket.emit("join", InputTeam, InputUsername)
 
-    navigate("/main");
-  };
+    setUserDetails({
+      username: InputUsername,
+      team: InputTeam,
+    })
+
+    navigate("/main")
+  }
 
   return (
     <div className="flex items-center justify-center h-screen gap-x-16">
@@ -75,5 +82,5 @@ export function Login() {
         </ul>
       </div>
     </div>
-  );
+  )
 }

@@ -7,29 +7,27 @@ import { Button } from "./button.js"
 import { Chat } from "./chat"
 import { Grid } from "./grid"
 import { NameList } from "./nameList.js"
+import {useSocket} from "../hooks/useSocket"
 
 export function Main() {
-  const [color, setColor] = useState(() => empty)
+  const [pixels, setPixels] = useState(() => empty.imageData)
+  const [playerColor, setPlayerColor] = useState("")
   const [userDetails, setUserDetails] = useUserDetails()
   const { seconds, minutes, hours, isRunning, start, reset } = useStopwatch({
     autoStart: false,
   })
 
   // Add event listener on mount and remove it on unmount
-  useEffect(() => {
-    socket.on("addColor", (x, y, team) => {
-      const newColor = [...color]
-      newColor[y][x] = "#0f0"
+  useSocket("addPixel", (x, y, color) => {     
+    const newColor = [...pixels]
+    newColor[y][x] = color
 
-      setColor(newColor)
-    })
-
-    return () => socket.off("addColor")
-  }, [])
+    setPixels(newColor)
+  })
 
   // Add event listener on mount and remove it on unmount
   useEffect(() => {
-    socket.on("startGame", (x, y, team) => {
+    socket.on("startGame", (x, y) => {
       reset()
       start()
     })
@@ -37,9 +35,17 @@ export function Main() {
     return () => socket.off("startGame")
   }, [])
 
+  // Set the individual color to state
+  useSocket("playerColors", (colors)=> {
+    const individualColor = colors.find(color => color.sid === socket.id)
+
+    setPlayerColor(individualColor.color)
+  })
+
   function handleClick(x, y) {
     console.log("Klick på:", { x, y })
-    socket.emit("addColor", x, y, userDetails.team)
+
+    socket.emit("addPixel", x, y, playerColor)
   }
 
   return (
@@ -60,7 +66,7 @@ export function Main() {
           ></Chat>
         </div>
         <div className="bg-white row-span-2 h-[32rem] w-[32rem] rounded-xl border border-sky-300 shadow-md">
-          <Grid color={color} onClick={handleClick}></Grid>
+          <Grid color={pixels} onClick={handleClick}></Grid>
         </div>
         <div className="w-64 bg-white border shadow-md rounded-xl border-sky-300">
           Results

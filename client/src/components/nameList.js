@@ -18,8 +18,8 @@ export const NameList = () => {
     <div>
       <ul>
         {players &&
-          players.map((user, index) => (
-            <li key={`${index}:${user.name}`}>{user.name}</li>
+          players.map((player, index) => (
+            <li key={`${index}:${player.name}`}>{player.name}</li>
           ))}
       </ul>
     </div>

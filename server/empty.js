@@ -1,5 +1,5 @@
 export const empty = {
-  colors: ["#f5f5f5", "#c6c6c6", "#969696", "#737373"],
+  colors: ["#ff0", "#f0f", "#0ff", "#0f0"],
 imageData:[
   [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,],
   [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,],
@@ -28,7 +28,7 @@ imageData:[
     null,
     null,
   ],
-  [
+  [ 
     null,
     null,
     null,

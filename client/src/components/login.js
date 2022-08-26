@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useUserDetails } from "../context/UserDetailsContext.js"
 import { socket } from "../lib/socket.js"
+import { useSocket } from "../hooks/useSocket.js"
 
 export function Login() {
   const [DisabledBtn, setDisabledBtn] = useState(true)
@@ -27,18 +28,48 @@ export function Login() {
   }
 
   // Sending info to socket
-  const sendUserInfo = () => {
+  const sendUserInfo = (e) => {
+    e.preventDefault()
+
     socket.connect()
 
     socket.emit("join", InputTeam, InputUsername)
-
-    setUserDetails({
-      username: InputUsername,
-      team: InputTeam,
-    })
-
-    navigate("/main")
   }
+
+  // Add event listener on mount and remove it on unmount
+  // useEffect(() => {
+  //   socket.on("blockJoin", (isBlocked) => {
+  //     if (!isBlocked) {
+  //       setUserDetails({
+  //         username: InputUsername,
+  //         team: InputTeam,
+  //       })
+        
+  //       console.log("Ska skickas vidare")
+  //       navigate("/main")
+  //     } else {
+  //       console.log("Ska inte skickas vidare")
+  //     }
+  //   })
+
+  //   return () => socket.off("blockJoin")
+  // }, [])
+
+
+  useSocket("blockJoin", (isBlocked)=>{
+    console.log(isBlocked);
+    if (!isBlocked) {
+      setUserDetails({
+        username: InputUsername,
+        team: InputTeam,
+      })
+  
+      console.log("Ska skickas vidare")
+      navigate("/main")
+    } else {
+      console.log("Ska inte skickas vidare")
+    }
+  })
 
   return (
     <div className="flex items-center justify-center h-screen gap-x-16">

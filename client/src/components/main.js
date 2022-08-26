@@ -38,7 +38,7 @@ export function Main() {
   }, [])
 
   function handleClick(x, y) {
-    console.log(x, y)
+    console.log("Klick på:", { x, y })
     socket.emit("addColor", x, y, userDetails.team)
   }
 

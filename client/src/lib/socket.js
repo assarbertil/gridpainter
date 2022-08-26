@@ -5,7 +5,7 @@ export const socket = io("ws://localhost:3001", {
 })
 
 socket.onAny((event, ...args) => {
-  console.log(`got ${event}`)
+  console.log(`Tog emot event ${event}`, args)
 })
 
 socket.on("userInfo", (team, userName) => {

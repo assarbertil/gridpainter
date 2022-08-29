@@ -31,7 +31,7 @@ export function Chat({ inputUsername, inputTeam }) {
 
   return (
     <>
-      <div className="relative h-[32rem]  bg-red-400">Chat
+      <div className="relative h-[32rem]">Chat
         <ul className="overflow-auto h-[28rem]  ">
           {chatOutput.map(({ username, message }, index) => (
             <li key={index}>
@@ -40,10 +40,11 @@ export function Chat({ inputUsername, inputTeam }) {
           ))}
         </ul>
 
-        <div className="absolute inset-x-0 bottom-0 h-8 bg-green-700" >
-          <input value={inputChat} onChange={saveChat} placeholder="chat" />
-          <button type="submit" onClick={chatSubmit}>
-          <FontAwesomeIcon icon="fa-solid fa-paper-plane bg-sky-50 border-sky-300" />
+          {/*TODO: Remove borders from input fields and increase plane font size */}
+        <div className="absolute inset-x-0 bottom-0 bg-blue-100 border-t border-b px-2 py-3 bg-sky-50" >
+          <input className="bg-blue-100 border-none" value={inputChat} onChange={saveChat} placeholder="chat" />
+          <button className="pl-4" type="submit" onClick={chatSubmit}>
+          <FontAwesomeIcon icon="fa-regular fa-paper-plane" />
           </button>
         </div>
       </div>

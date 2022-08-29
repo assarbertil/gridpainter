@@ -28,6 +28,8 @@ export const handleDisconnect = (socket, io, t) => {
       })
     } else {
       // TODO
+
+      io.to(team.name).emit("endGame")
     }
 
     // Send a chat message when a user disconnects

@@ -1,9 +1,9 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { Login } from "./components/login"
-import { Main } from "./components/main"
-import { Score } from "./components/score"
+import { Login } from "./components/Login"
+import { Main } from "./components/Main"
+import { Score } from "./components/Score"
 import { UserDetailsProvider } from "./context/UserDetailsContext"
 import "./index.css"
 

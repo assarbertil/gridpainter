@@ -1,13 +1,12 @@
-import {useEffect} from "react"
-import {socket } from "../lib/socket"
+import { useEffect } from "react"
+import { socket } from "../lib/socket"
 
-export const useSocket = ( eventName, callback) => {
+export const useSocket = (eventName, callback) => {
   useEffect(() => {
-    socket.on(eventName, callback);
+    socket.on(eventName, callback)
 
     return () => {
-      socket.off(eventName, callback);
+      socket.off(eventName, callback)
     }
-  } , [callback]);
+  }, [callback])
 }
-

@@ -4,9 +4,9 @@ import { useUserDetails } from "../context/UserDetailsContext.js"
 import { empty } from "../empty.js"
 import { socket } from "../lib/socket.js"
 import { Button } from "./Button.js"
-import { Chat } from "./chat"
-import { Grid } from "./grid"
-import { NameList } from "./nameList.js"
+import { Chat } from "./Chat"
+import { Grid } from "./Grid"
+import { NameList } from "./NameList.js"
 import { useSocket } from "../hooks/useSocket"
 import { EndGameScreen } from "./EndGameScreen.jsx"
 
@@ -18,6 +18,7 @@ export function Main() {
     autoStart: false,
   })
   const [btnText, setBtnText] = useState("Starta")
+  const [answerPixels, setAnswerPixels] = useState(() => empty.imageData)
 
   // Add event listener on mount and remove it on unmount
   useSocket("addPixel", (x, y, color) => {
@@ -27,7 +28,7 @@ export function Main() {
     setPixels(newColor)
   })
 
-  useSocket("startGame", (colors) => {
+  useSocket("startGame", (colors, pixelData) => {
     // Reset stopwatch
     reset()
     start()
@@ -38,6 +39,8 @@ export function Main() {
     // Receive colors here and set each players individual color
     const individualColor = colors.find((color) => color.sid === socket.id)
     setPlayerColor(individualColor.color)
+
+    setAnswerPixels(pixelData)
   })
 
   function handleClick(x, y) {
@@ -52,10 +55,10 @@ export function Main() {
 
   return (
     <>
-      {/* <div className="flex flex-col items-center justify-center h-screen">
+      <div className="flex flex-col items-center justify-center h-screen">
         <div className="flex justify-between items-center w-[32rem]">
           <div className="mb-3 text-xl font-medium">Gridpainter</div>
-           
+
           <div className="text-xs font-medium">
             {minutes > 0 && <>{minutes} minuter</>}
             {seconds} sekunder <Button onClick={handleStart}>{btnText}</Button>
@@ -71,14 +74,16 @@ export function Main() {
           <div className="bg-white row-span-2 h-[32rem] w-[32rem] rounded-xl border border-sky-300 shadow-md">
             <Grid color={pixels} onClick={handleClick}></Grid>
           </div>
-          <div className="w-64 bg-white border shadow-md rounded-xl border-sky-300">
-            Results
+          <div className="flex items-center justify-center w-64 p-2 bg-white border shadow-md rounded-xl border-sky-300">
+            <div className="w-[12rem] h-[12rem] border border-sky-900">
+              <Grid color={answerPixels} border={false} />
+            </div>
           </div>
           <div className="w-64 bg-white border shadow-md rounded-xl border-sky-300">
             <NameList />
           </div>
         </div>
-      </div> */}
+      </div>
 
       <EndGameScreen />
     </>

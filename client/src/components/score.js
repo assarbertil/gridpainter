@@ -1,7 +1,3 @@
-export function Score (){
-    return(
-        <div>
-            Score sidan
-        </div>
-    )
+export function Score() {
+  return <div>Score sidan</div>
 }

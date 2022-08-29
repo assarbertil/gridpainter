@@ -1,34 +1,28 @@
-import { useState, Fragment } from "react"
-import { Dialog, Transition } from "@headlessui/react"
+import { useState } from "react"
+import { Dialog } from "@headlessui/react"
 import { Button } from "./Button"
+import { useSocket } from "../hooks/useSocket.js"
+import { useNavigate } from "react-router-dom"
 
 export const EndGameScreen = () => {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
+  const navigate = useNavigate()
+
+  useSocket("endGame", () => setIsOpen(true))
 
   return (
-    <>
-      <Button onClick={() => setIsOpen(!isOpen)}>Öppna</Button>
+    <Dialog open={isOpen} onClose={() => navigate("/")}>
+      <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
-      <Transition
-        show={isOpen}
-        enter="transition duration-100 ease-out"
-        enterFrom="transform scale-95 opacity-0"
-        enterTo="transform scale-100 opacity-100"
-        leave="transition duration-75 ease-out"
-        leaveFrom="transform scale-100 opacity-100"
-        leaveTo="transform scale-95 opacity-0"
-        as={Fragment}
-      >
-        <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
-          <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+      <Dialog.Panel className="fixed flex-col inset-0 m-auto flex items-center justify-center p-4 w-[32rem] h-[32rem] border bg-sky-50 rounded-xl border-sky-300">
+        <Dialog.Title>Resultat</Dialog.Title>
 
-          <Dialog.Panel className="fixed flex-col inset-0 m-auto flex items-center justify-center p-4 w-[32rem] h-[32rem] border bg-sky-50 rounded-xl border-sky-300">
-            <Dialog.Title>Resultat</Dialog.Title>
+        {/* Stjärnor
+          procent rätt
+          2bilder */}
 
-            <button onClick={() => ""}>Spara resultat</button>
-          </Dialog.Panel>
-        </Dialog>
-      </Transition>
-    </>
+        <Button>Spara resultat</Button>
+      </Dialog.Panel>
+    </Dialog>
   )
 }

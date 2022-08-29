@@ -12,6 +12,6 @@ socket.on("userInfo", (team, userName) => {
   console.log("Loggade in i lag:", team, " med användarnamn:", userName)
 })
 
-socket.on("roomData", users => {
+socket.on("roomData", (users) => {
   console.log(users)
 })

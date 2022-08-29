@@ -16,13 +16,14 @@ export function Main() {
   const { seconds, minutes, hours, isRunning, start, reset } = useStopwatch({
     autoStart: false,
   })
+  const [btnText, setBtnText]=useState("Starta")
 
   // Add event listener on mount and remove it on unmount
   useSocket("addPixel", (x, y, color) => {     
     const newColor = [...pixels]
     newColor[y][x] = color
 
-    setPixels(newColor)
+    setPixels(newColor) 
   })
 
   // Add event listener on mount and remove it on unmount
@@ -30,6 +31,7 @@ export function Main() {
     socket.on("startGame", (x, y) => {
       reset()
       start()
+      setBtnText("Klar")
     })
 
     return () => socket.off("startGame")
@@ -47,7 +49,9 @@ export function Main() {
 
     socket.emit("addPixel", x, y, playerColor)
   }
-
+  function handleStart(){
+    socket.emit("startGame")
+  }
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="flex justify-between items-center w-[32rem]">
@@ -55,7 +59,7 @@ export function Main() {
         {/* Change button */}
         <div className="text-xs font-medium">
           {minutes > 0 && <>{minutes} minuter</>}
-          {seconds} sekunder <Button>Klar</Button>
+          {seconds} sekunder <Button onClick={handleStart}>{btnText}</Button>
         </div>
       </div>
       <div className="grid grid-cols-[16rem_32rem_16rem] grid-rows-2 gap-12">

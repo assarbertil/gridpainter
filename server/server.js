@@ -3,6 +3,8 @@ import { createServer } from "http"
 import { Server } from "socket.io"
 import { Teams } from "./classes/Teams.js"
 import {empty} from "./empty.js"
+import { handleJoin } from "./controllers/handleJoin.js"
+import { handleStart } from "./controllers/handleStart.js"
 
 const app = express()
 const httpServer = createServer(app)
@@ -21,66 +23,9 @@ const t = new Teams()
 app.use("/", express.static("./client"))
 
 io.on("connection", socket => {
-  socket.on("join", (teamName, username) => {
-    console.log(username, "joined", teamName)
-
-    // Create a room if it doesn't exist
-    // Join a room if it exists
-    
-    if (t.team.findByName(teamName) === undefined) {
-      t.team.create(teamName)
-    }
-
-
+  handleJoin(socket, io, t)
+  handleStart(socket, io, t)
  
-    // Check if player can join a team
-    if (t.team.findByName(teamName).players.length < 4) {
-      socket.join(teamName)
-
-      t.team.addPlayer(teamName, {
-        sid: socket.id,
-        name: username,
-      })
-
-      // Broadcast join message in chat
-      io.to(teamName).emit(
-        "message",
-        `${username} gick med i spelet.`,
-        "Server"
-      )
-
-      socket.emit("blockJoin", false)
-    } else {
-      console.log("Laget är fullt")
-      socket.emit("blockJoin", true)
-    }
-
-    // Send room data with user list when someone joins
-    io.to(teamName).emit("roomData", {
-      players: t.team.getPlayers(teamName),
-    })
-
-    // Start the game when four players are in the room
-    if (t.team.getPlayers(teamName).length === 4) {
-      t.team.changeState(teamName, "inGame")
-
-
-      // Send individual colors to players
-      console.log("Should send colors")
-
-      const players = t.team.getPlayers(teamName)
-      const colors = players.map((player,index)=> ({
-        sid: player.sid,
-        color: empty.colors[index]
-      }))
-      
-      socket.to(teamName).emit("playerColors", colors)
-      
-      io.to(teamName).emit("startGame")
-    }
-
-
-  })
 
 
   // When a player adds a color, send it to the other players in the room

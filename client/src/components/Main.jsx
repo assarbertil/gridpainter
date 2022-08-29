@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useStopwatch } from "react-timer-hook"
 import { useUserDetails } from "../context/UserDetailsContext.js"
 import { empty } from "../empty.js"
-import { socket } from "../lib/socket.js"
-import { Button } from "./Button.js"
-import { Chat } from "./Chat"
-import { Grid } from "./Grid"
-import { NameList } from "./NameList.js"
 import { useSocket } from "../hooks/useSocket"
+import { socket } from "../lib/socket.js"
+import { Button } from "./Button.jsx"
+import { Chat } from "./Chat"
 import { EndGameScreen } from "./EndGameScreen.jsx"
+import { Grid } from "./Grid"
+import { NameList } from "./NameList.jsx"
 
 export function Main() {
   const [pixels, setPixels] = useState(() => empty.imageData)
@@ -37,7 +37,7 @@ export function Main() {
     setBtnText("Klar")
 
     // Receive colors here and set each players individual color
-    const individualColor = colors.find((color) => color.sid === socket.id)
+    const individualColor = colors.find(color => color.sid === socket.id)
     setPlayerColor(individualColor.color)
 
     setAnswerPixels(pixelData)

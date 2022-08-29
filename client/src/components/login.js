@@ -20,10 +20,10 @@ export function Login() {
   }, [InputUsername && InputTeam])
 
   // Save inputvalues
-  const saveUsername = e => {
+  const saveUsername = (e) => {
     setInputUsername(e.target.value)
   }
-  const saveTeam = e => {
+  const saveTeam = (e) => {
     setInputTeam(e.target.value)
   }
 
@@ -36,38 +36,19 @@ export function Login() {
     socket.emit("join", InputTeam, InputUsername)
   }
 
-  // Add event listener on mount and remove it on unmount
-  // useEffect(() => {
-  //   socket.on("blockJoin", (isBlocked) => {
-  //     if (!isBlocked) {
-  //       setUserDetails({
-  //         username: InputUsername,
-  //         team: InputTeam,
-  //       })
-        
-  //       console.log("Ska skickas vidare")
-  //       navigate("/main")
-  //     } else {
-  //       console.log("Ska inte skickas vidare")
-  //     }
-  //   })
-
-  //   return () => socket.off("blockJoin")
-  // }, [])
-
-
-  useSocket("blockJoin", (isBlocked)=>{
-    console.log(isBlocked);
+  useSocket("blockJoin", (isBlocked) => {
+    console.log(isBlocked)
     if (!isBlocked) {
       setUserDetails({
         username: InputUsername,
         team: InputTeam,
       })
-  
+
       console.log("Ska skickas vidare")
       navigate("/main")
     } else {
       console.log("Ska inte skickas vidare")
+      alert("Rummet är redan fullt")
     }
   })
 
@@ -77,7 +58,7 @@ export function Login() {
         <h3 className="flex font-medium">Logga in</h3>
 
         <div className="flex flex-col gap-y-2 ">
-          <label htmlFor="asdasdasd">Användarnamn :</label>
+          <label htmlFor="asdasdasd">Användarnamn:</label>
           <input
             value={InputUsername}
             onChange={saveUsername}
@@ -86,7 +67,7 @@ export function Login() {
         </div>
 
         <div className="flex flex-col gap-y-2 ">
-          <label>Lagnamn :</label>
+          <label>Lagnamn:</label>
           <input
             value={InputTeam}
             onChange={saveTeam}

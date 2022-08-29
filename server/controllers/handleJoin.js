@@ -6,13 +6,11 @@ export const handleJoin = (socket, io, t) => {
 
     // Create a room if it doesn't exist
     // Join a room if it exists
-    
+
     if (t.team.findByName(teamName) === undefined) {
       t.team.create(teamName)
     }
 
-
- 
     // Check if player can join a team
     if (t.team.findByName(teamName).players.length < 4) {
       await socket.join(teamName)
@@ -36,8 +34,10 @@ export const handleJoin = (socket, io, t) => {
     }
 
     // Send room data with user list when someone joins
-    io.to(teamName).emit("roomData", {
-      players: t.team.getPlayers(teamName),
-    })
+    setTimeout(() => {
+      io.to(teamName).emit("roomData", {
+        players: t.team.getPlayers(teamName),
+      })
+    }, 100)
   })
 }

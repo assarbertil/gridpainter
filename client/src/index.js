@@ -7,6 +7,14 @@ import { Score } from "./components/Score"
 import { UserDetailsProvider } from "./context/UserDetailsContext"
 import "./index.css"
 
+//fontawsome
+import { library } from '@fortawesome/fontawesome-svg-core'; 
+import { fab } from '@fortawesome/free-brands-svg-icons'; 
+import { fas } from '@fortawesome/free-solid-svg-icons'; 
+import { far } from '@fortawesome/free-regular-svg-icons'; 
+library.add(fab, fas, far); //A registration process to make it easier to call from other components?
+
+
 const root = ReactDOM.createRoot(document.getElementById("root"))
 
 root.render(

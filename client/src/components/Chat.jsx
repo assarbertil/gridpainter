@@ -31,21 +31,25 @@ export function Chat({ inputUsername, inputTeam }) {
 
   return (
     <>
-      <div className="relative h-[32rem]">Chat
-        <ul className="overflow-auto h-[28rem]  ">
+      <div className="relative h-[32rem] bg-sky-50 pl-2">
+        <p>Chat</p>
+        <ul className="overflow-auto h-[28rem] max-w-md mx-auto ... ">
           {chatOutput.map(({ username, message }, index) => (
             <li key={index}>
-              {username}: {message}
+             <span className="text-gray-500">{username}: </span> {message}
             </li>
           ))}
         </ul>
 
-          {/*TODO: Remove borders from input fields and increase plane font size */}
-        <div className="absolute inset-x-0 bottom-0 bg-blue-100 border-t border-b px-2 py-3 bg-sky-50" >
-          <input className="bg-blue-100 border-none" value={inputChat} onChange={saveChat} placeholder="chat" />
-          <button className="pl-4" type="submit" onClick={chatSubmit}>
-          <FontAwesomeIcon icon="fa-regular fa-paper-plane" />
+        {/* chatText.scrollTo(0, chatText.scrollHeight) */}
+
+        {/*TODO: Remove borders from input fields and increase plane font size */}
+        <div className="absolute inset-x-0 bottom-0  border-t border-b px-2 py-3 bg-sky-100" >
+          <input className="bg-sky-100 outline-none" value={inputChat} onChange={saveChat} placeholder="chat..." />
+          <button className="ml-4 bg-blue-400 rounded-full h-9 w-9" type="submit" onClick={chatSubmit}>
+          <FontAwesomeIcon icon="fa-regular fa-paper-plane" className="text-xl"/>
           </button>
+          
         </div>
       </div>
     </>

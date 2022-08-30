@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react"
+import React, { useState, useEffect, useRef} from "react"
 import { socket } from "../lib/socket.js"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -23,14 +23,25 @@ export function Chat({ inputUsername, inputTeam }) {
       setChatOutput((current) => [...current, { username, message }])
       console.log(`[${team}] ${username}: ${message}`)
 
-      let chatArea = document.getElementById('chat-area'),
-      chatAreaHeight = chatArea.scrollHeight;
-      //chatArea.scrollTop = chatAreaHeight;
-      chatArea.scrollTop(0, chatArea.scrollHeight)
-    })
+      //Try1: scroll to the end of the chat. but doesn't work. tomorrow.
+      // let chatArea = document.getElementById('chat-area'),
+      // chatAreaHeight = chatArea.scrollHeight;
+      // //chatArea.scrollTop = chatAreaHeight;
+      // chatArea.scrollTop(0, chatArea.scrollHeight)
 
-    return () => socket.off("message")
+      return () => socket.off("message")
+
+      // //Try2: scroll to the end of the chat. but doesn't work. tomorrow.
+      // const messagesEndRef = useRef(null)
+      // const scrollToBottom = () => {
+      // messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+      //}
+    })
+ 
   }, [])
+
+  // useEffect(scrollToBottom, [chatOutput]);
+
 
   {/* chatText.scrollTo(0, chatText.scrollHeight) */}
   return (
@@ -38,7 +49,7 @@ export function Chat({ inputUsername, inputTeam }) {
       <section className="relative h-[32rem] bg-sky-50 pl-2 border border-sky-300 rounded-lg">
         <div>
           <p>Chat</p>
-          <ul id="chat-area" className="overflow-scroll h-[24rem] max-w-md">
+          <ul id="chat-area" className="overflow-y-auto h-[24rem] max-w-md">
             {chatOutput.map(({ username, message }, index) => (
               <li key={index} >
                 <span className="text-gray-400 ">{username}: </span> 
@@ -46,6 +57,7 @@ export function Chat({ inputUsername, inputTeam }) {
               </li>
            ))}
           </ul>
+          {/* <div ref={messagesEndRef} /> */}
         </div>
         
         <div className="absolute inset-x-0 bottom-0  border-t-2 border-sky-300  px-2 py-3 bg-sky-100 inline-flex " >

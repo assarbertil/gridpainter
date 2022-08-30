@@ -22,6 +22,11 @@ export function Chat({ inputUsername, inputTeam }) {
     socket.on("message", (message, username, team) => {
       setChatOutput((current) => [...current, { username, message }])
       console.log(`[${team}] ${username}: ${message}`)
+
+      let chatArea = document.getElementById('chat-area'),
+      chatAreaHeight = chatArea.scrollHeight;
+      //chatArea.scrollTop = chatAreaHeight;
+      chatArea.scrollTop(0, chatArea.scrollHeight)
     })
 
     return () => socket.off("message")
@@ -33,7 +38,7 @@ export function Chat({ inputUsername, inputTeam }) {
       <section className="relative h-[32rem] bg-sky-50 pl-2 border border-sky-300 rounded-lg">
         <div>
           <p>Chat</p>
-          <ul className="overflow-scroll h-[24rem] max-w-md">
+          <ul id="chat-area" className="overflow-scroll h-[24rem] max-w-md">
             {chatOutput.map(({ username, message }, index) => (
               <li key={index} >
                 <span className="text-gray-400 ">{username}: </span> 
@@ -45,7 +50,7 @@ export function Chat({ inputUsername, inputTeam }) {
         
         <div className="absolute inset-x-0 bottom-0  border-t-2 border-sky-300  px-2 py-3 bg-sky-100 inline-flex " >
             <input className="bg-sky-100 outline-none flex-grow flex-1 w-3" value={inputChat} onChange={saveChat} placeholder="chat..." />
-            <button className="ml-4 bg-blue-400 rounded-full h-9 w-9 flex-none flex-1 " type="submit" onClick={chatSubmit}>
+            <button className="ml-4 bg-blue-400 hover:bg-sky-300 rounded-full h-9 w-9 flex-none flex-1 " type="submit" onClick={chatSubmit}>
             <FontAwesomeIcon icon="fa-regular fa-paper-plane" className="text-xl"/>
             </button>
         </div>

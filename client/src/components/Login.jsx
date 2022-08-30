@@ -1,56 +1,56 @@
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { useUserDetails } from "../context/UserDetailsContext.js"
-import { socket } from "../lib/socket.js"
-import { useSocket } from "../hooks/useSocket.js"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUserDetails } from "../context/UserDetailsContext.js";
+import { socket } from "../lib/socket.js";
+import { useSocket } from "../hooks/useSocket.js";
 
 export function Login() {
-  const [DisabledBtn, setDisabledBtn] = useState(true)
-  const [InputUsername, setInputUsername] = useState("")
-  const [InputTeam, setInputTeam] = useState("")
-  const [userDetails, setUserDetails] = useUserDetails()
+  const [DisabledBtn, setDisabledBtn] = useState(true);
+  const [InputUsername, setInputUsername] = useState("");
+  const [InputTeam, setInputTeam] = useState("");
+  const [userDetails, setUserDetails] = useUserDetails();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // making button enabled
   useEffect(() => {
     if (InputUsername !== "" && InputTeam !== "") {
-      setDisabledBtn(false)
-    } else if (InputUsername === "" && InputTeam === "") setDisabledBtn(true)
-  }, [InputUsername && InputTeam])
+      setDisabledBtn(false);
+    } else if (InputUsername === "" && InputTeam === "") setDisabledBtn(true);
+  }, [InputUsername && InputTeam]);
 
   // Save inputvalues
   const saveUsername = (e) => {
-    setInputUsername(e.target.value)
-  }
+    setInputUsername(e.target.value);
+  };
   const saveTeam = (e) => {
-    setInputTeam(e.target.value)
-  }
+    setInputTeam(e.target.value);
+  };
 
   // Sending info to socket
   const sendUserInfo = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    socket.connect()
+    socket.connect();
 
-    socket.emit("join", InputTeam, InputUsername)
-  }
+    socket.emit("join", InputTeam, InputUsername);
+  };
 
   useSocket("blockJoin", (isBlocked) => {
-    console.log(isBlocked)
+    console.log(isBlocked);
     if (!isBlocked) {
       setUserDetails({
         username: InputUsername,
         team: InputTeam,
-      })
+      });
 
-      console.log("Ska skickas vidare")
-      navigate("/main")
+      console.log("Ska skickas vidare");
+      navigate("/main");
     } else {
-      console.log("Ska inte skickas vidare")
-      alert("Rummet är redan fullt")
+      console.log("Ska inte skickas vidare");
+      alert("Rummet är redan fullt");
     }
-  })
+  });
 
   return (
     <div className="flex items-center justify-center h-screen gap-x-16">
@@ -85,14 +85,16 @@ export function Login() {
       </form>
 
       <div>
-        <h2 className="mb-5 font-medium">Välkommen till Gridpainter</h2>
-        <h3>Så här spelar du : </h3>
-        <ul>
-          <li>Välj ett användar namn och lag</li>
-          <li>Du får en färg som du ska måla med genom att...</li>
-          <li>Tänk på tiden, du får ...</li>
+        <h2 className="mb-5 text-xl font-bold">Välkommen till Gridpainter</h2>
+        <h3 className="mb-3 font-medium">Så här spelar du: </h3>
+        <ul className="ml-5 text-sm list-disc">
+          <li>Välj ett användarnamn och lag.</li>
+          <li>Du skickas vidare till spelet där du blir tilldelad en färg.</li>
+          <li>När 4 spelare är inne i spelet tryck på start.</li>
+          <li>Dags att måla, försök göra så likt facit som möjligt.</li>
+          <li>När ni är klara tryck på klar och se hur likt facit det blev.</li>
         </ul>
       </div>
     </div>
-  )
+  );
 }

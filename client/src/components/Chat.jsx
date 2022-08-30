@@ -33,7 +33,7 @@ export function Chat({ inputUsername, inputTeam }) {
       <section className="relative h-[32rem] bg-sky-50 pl-2 border border-sky-300 rounded-lg">
         <div>
           <p>Chat</p>
-          <ul id="chatText" className="overflow-scroll h-[24rem] max-w-md">
+          <ul className="overflow-scroll h-[24rem] max-w-md">
             {chatOutput.map(({ username, message }, index) => (
               <li key={index} >
                 <span className="text-gray-400 ">{username}: </span> 
@@ -43,9 +43,8 @@ export function Chat({ inputUsername, inputTeam }) {
           </ul>
         </div>
         
-        {/* TODO: decide input field's width */}
-        <div className="absolute inset-x-0 bottom-0  border-t border-b px-2 py-3 bg-sky-100 inline-flex " >
-            <input className="bg-sky-100 outline-none flex-grow flex-1 w-50 w-3 " value={inputChat} onChange={saveChat} placeholder="chat..." />
+        <div className="absolute inset-x-0 bottom-0  border-t-2 border-sky-300  px-2 py-3 bg-sky-100 inline-flex " >
+            <input className="bg-sky-100 outline-none flex-grow flex-1 w-3" value={inputChat} onChange={saveChat} placeholder="chat..." />
             <button className="ml-4 bg-blue-400 rounded-full h-9 w-9 flex-none flex-1 " type="submit" onClick={chatSubmit}>
             <FontAwesomeIcon icon="fa-regular fa-paper-plane" className="text-xl"/>
             </button>

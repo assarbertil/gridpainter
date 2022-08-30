@@ -1,3 +1,4 @@
+import { empty } from "../empty.js";
 export class Teams {
     teams = [];
     constructor() { }
@@ -7,11 +8,18 @@ export class Teams {
                 name: teamName,
                 state: "preGame",
                 players: [],
+                pixelData: empty.pixelData,
             };
             this.teams = [...this.teams, newTeam];
         },
         delete: (teamName) => {
             this.teams = this.teams.filter(team => team.name !== teamName);
+        },
+        getState: (teamName) => {
+            const state = this.team.findByName(teamName);
+            if (state !== undefined) {
+                return state.state;
+            }
         },
         changeState: (teamName, state) => {
             this.teams = this.teams.map(team => ({
@@ -40,6 +48,12 @@ export class Teams {
             const team = this.team.findByName(teamName);
             return team ? team.players : [];
         },
+        addPixel: (teamName, x, y, color) => {
+            const team = this.team.findByName(teamName);
+            if (team) {
+                team.pixelData[y][x] = color;
+            }
+        }
     };
     player = {
         findBySid: (playerSid) => {

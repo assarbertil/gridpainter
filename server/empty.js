@@ -1,6 +1,6 @@
 export const empty = {
   colors: ["#ff0", "#f0f", "#0ff", "#0f0"],
-imageData:[
+pixelData:[
   [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,],
   [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,],
   [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,

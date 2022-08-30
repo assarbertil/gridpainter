@@ -1,3 +1,5 @@
+import { Image } from "../models/imageModel.js"
+
 // Handles player disconnection
 export const handleDisconnect = (socket, io, t) => {
   socket.on("disconnect", (reason) => {
@@ -27,9 +29,17 @@ export const handleDisconnect = (socket, io, t) => {
         players: t.team.getPlayers(team.name),
       })
     } else {
-      // TODO
-
       io.to(team.name).emit("endGame")
+
+      console.log("Borde spara bild")
+      console.log(team.pixelData)
+      Image.create({
+        percentCorrect: "99",
+        pixelData: team.pixelData
+      })
+      console.log("Borde ha sparat bild")
+      
+      t.team.delete(team.name)
     }
 
     // Send a chat message when a user disconnects

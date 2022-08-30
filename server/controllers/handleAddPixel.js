@@ -8,6 +8,8 @@ export const handleAddPixel = (socket, io, t) => {
       console.log("Lag", team.name, "har ritat i:", { x, y })
 
       io.in(team.name).emit("addPixel", x, y, color)
+
+      t.team.addPixel(team.name, x, y, color)
     }
   })
 }

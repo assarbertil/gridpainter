@@ -8,6 +8,19 @@ import { handleStart } from "./controllers/handleStart.js"
 import { handleChatMessage } from "./controllers/handleChatMessage.js"
 import { handleDisconnect } from "./controllers/handleDisconnect.js"
 import { handleAddPixel } from "./controllers/handleAddPixel.js"
+import mongoose from "mongoose"
+import "dotenv/config"
+import { Image } from "./models/imageModel.js"
+
+mongoose.connect(process.env.DATABASE_URL)
+const db = mongoose.connection
+db.once("open",()=>{
+  console.log("Database connected")
+  
+  
+})
+
+
 
 const app = express()
 const httpServer = createServer(app)

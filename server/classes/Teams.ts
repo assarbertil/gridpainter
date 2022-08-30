@@ -1,3 +1,5 @@
+import {empty} from "../empty.js"
+
 type TeamStates = "preGame" | "inGame" | "endGame"
 
 interface Player {
@@ -9,6 +11,7 @@ interface Team {
   name: string
   state: TeamStates
   players: Player[]
+  pixelData:  (null | string)[][]
 }
 
 export class Teams {
@@ -22,6 +25,7 @@ export class Teams {
         name: teamName,
         state: "preGame",
         players: [],
+        pixelData: empty.pixelData,
       }
 
       this.teams = [...this.teams, newTeam]
@@ -71,6 +75,14 @@ export class Teams {
       const team = this.team.findByName(teamName)
       return team ? team.players : []
     },
+
+    addPixel: (teamName:string, x:number, y:number, color:string): void => {
+      const team = this.team.findByName(teamName)
+
+      if (team) {
+        team.pixelData[y][x] = color
+      }
+    }
   }
 
   player = {

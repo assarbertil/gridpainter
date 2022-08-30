@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export function SavedGames() {
     const navigate = useNavigate()
@@ -9,7 +10,7 @@ export function SavedGames() {
 
   return (
     <div>
-      <button onClick={backBtn} className="w-40 rounded h-11 bg-sky-300">Tillbaka</button>
+      <button onClick={backBtn}><FontAwesomeIcon icon="fa-solid fa-angle-left" /> Tillbaka</button>
     </div>
   )
 }

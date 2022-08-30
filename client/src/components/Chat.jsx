@@ -14,7 +14,6 @@ export function Chat({ inputUsername, inputTeam }) {
   //click chat button
   const chatSubmit = () => {
     socket.emit("message", inputChat, inputUsername, inputTeam)
-    // console.log(inputChat, inputUsername, inputTeam);
     setInputChat("")
   }
 
@@ -22,36 +21,36 @@ export function Chat({ inputUsername, inputTeam }) {
   useEffect(() => {
     socket.on("message", (message, username, team) => {
       setChatOutput((current) => [...current, { username, message }])
-
       console.log(`[${team}] ${username}: ${message}`)
     })
 
     return () => socket.off("message")
   }, [])
 
+  {/* chatText.scrollTo(0, chatText.scrollHeight) */}
   return (
     <>
-      <div className="relative h-[32rem] bg-sky-50 pl-2">
-        <p>Chat</p>
-        <ul className="overflow-auto h-[28rem] max-w-md mx-auto ... ">
-          {chatOutput.map(({ username, message }, index) => (
-            <li key={index}>
-             <span className="text-gray-500">{username}: </span> {message}
-            </li>
-          ))}
-        </ul>
-
-        {/* chatText.scrollTo(0, chatText.scrollHeight) */}
-
-        {/*TODO: Remove borders from input fields and increase plane font size */}
-        <div className="absolute inset-x-0 bottom-0  border-t border-b px-2 py-3 bg-sky-100" >
-          <input className="bg-sky-100 outline-none" value={inputChat} onChange={saveChat} placeholder="chat..." />
-          <button className="ml-4 bg-blue-400 rounded-full h-9 w-9" type="submit" onClick={chatSubmit}>
-          <FontAwesomeIcon icon="fa-regular fa-paper-plane" className="text-xl"/>
-          </button>
-          
+      <section className="relative h-[32rem] bg-sky-50 pl-2 border border-sky-300 rounded-lg">
+        <div>
+          <p>Chat</p>
+          <ul id="chatText" className="overflow-scroll h-[24rem] max-w-md">
+            {chatOutput.map(({ username, message }, index) => (
+              <li key={index} >
+                <span className="text-gray-400 ">{username}: </span> 
+                <span >{message}</span>
+              </li>
+           ))}
+          </ul>
         </div>
-      </div>
+        
+        {/* TODO: decide input field's width */}
+        <div className="absolute inset-x-0 bottom-0  border-t border-b px-2 py-3 bg-sky-100 inline-flex " >
+            <input className="bg-sky-100 outline-none flex-grow flex-1 w-50 w-3 " value={inputChat} onChange={saveChat} placeholder="chat..." />
+            <button className="ml-4 bg-blue-400 rounded-full h-9 w-9 flex-none flex-1 " type="submit" onClick={chatSubmit}>
+            <FontAwesomeIcon icon="fa-regular fa-paper-plane" className="text-xl"/>
+            </button>
+        </div>
+      </section> 
     </>
-  )
+  );
 }

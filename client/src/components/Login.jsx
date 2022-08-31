@@ -1,56 +1,62 @@
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { useUserDetails } from "../context/UserDetailsContext.js"
-import { socket } from "../lib/socket.js"
-import { useSocket } from "../hooks/useSocket.js"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUserDetails } from "../context/UserDetailsContext.js";
+import { socket } from "../lib/socket.js";
+import { useSocket } from "../hooks/useSocket.js";
 
 export function Login() {
-  const [DisabledBtn, setDisabledBtn] = useState(true)
-  const [InputUsername, setInputUsername] = useState("")
-  const [InputTeam, setInputTeam] = useState("")
-  const [userDetails, setUserDetails] = useUserDetails()
+  const [DisabledBtn, setDisabledBtn] = useState(true);
+  const [InputUsername, setInputUsername] = useState("");
+  const [InputTeam, setInputTeam] = useState("");
+  const [userDetails, setUserDetails] = useUserDetails();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // making button enabled
   useEffect(() => {
     if (InputUsername !== "" && InputTeam !== "") {
-      setDisabledBtn(false)
-    } else if (InputUsername === "" && InputTeam === "") setDisabledBtn(true)
-  }, [InputUsername && InputTeam])
+      setDisabledBtn(false);
+    } else if (InputUsername === "" && InputTeam === "") setDisabledBtn(true);
+  }, [InputUsername && InputTeam]);
 
   // Save inputvalues
   const saveUsername = (e) => {
-    setInputUsername(e.target.value)
-  }
+    setInputUsername(e.target.value);
+  };
   const saveTeam = (e) => {
-    setInputTeam(e.target.value)
-  }
+    setInputTeam(e.target.value);
+  };
 
   // Sending info to socket
   const sendUserInfo = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    socket.connect()
+    socket.connect();
 
-    socket.emit("join", InputTeam, InputUsername)
-  }
+    socket.emit("join", InputTeam, InputUsername);
+  };
 
   useSocket("blockJoin", (isBlocked) => {
-    console.log(isBlocked)
+    console.log(isBlocked);
     if (!isBlocked) {
       setUserDetails({
         username: InputUsername,
         team: InputTeam,
-      })
+      });
 
-      console.log("Ska skickas vidare")
-      navigate("/main")
+      console.log("Ska skickas vidare");
+      navigate("/main");
     } else {
-      console.log("Ska inte skickas vidare")
-      alert("Rummet är redan fullt")
+      console.log("Ska inte skickas vidare");
+      alert("Rummet är redan fullt");
     }
-  })
+  });
+
+  useEffect(() => {
+    if (socket.connected) {
+      socket.disconnect();
+    }
+  }, []);
 
   return (
     <div className="flex items-center justify-center h-screen gap-x-16">
@@ -94,5 +100,5 @@ export function Login() {
         </ul>
       </div>
     </div>
-  )
+  );
 }

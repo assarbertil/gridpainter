@@ -21,6 +21,7 @@ export const handleStart = (socket, io, t) => {
       // And send event containing all colors
       console.log("Borde skicka bildens färger", colors)
       io.to(team.name).emit("startGame", colors, image.pixelData)
+      
     }
   })
 }

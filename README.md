@@ -13,7 +13,7 @@ First time installation requires you to run `npm install` and afterwards create 
 The .env should contain the environments variables described below:
 
 ```
-DATABASE_URL="mongodb+srv://gridpainter:gridpainter1@cluster0.j8bx5b3.mongodb.net/?retryWrites=true&w=majority"
+DATABASE_URL="mongodb+srv://gridpainter:<password>@cluster0.j8bx5b3.mongodb.net/?retryWrites=true&w=majority"
 
 ```
 

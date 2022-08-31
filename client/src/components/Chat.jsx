@@ -22,6 +22,7 @@ export function Chat({ inputUsername, inputTeam }) {
     socket.on("message", (message, username, team) => {
       setChatOutput((current) => [...current, { username, message }])
       console.log(`[${team}] ${username}: ${message}`)
+    });
 
       //Try1: scroll to the end of the chat. but doesn't work. tomorrow.
       // let chatArea = document.getElementById('chat-area'),
@@ -29,21 +30,20 @@ export function Chat({ inputUsername, inputTeam }) {
       // //chatArea.scrollTop = chatAreaHeight;
       // chatArea.scrollTop(0, chatArea.scrollHeight)
 
-      return () => socket.off("message")
+      return () => socket.off("message");
 
       // //Try2: scroll to the end of the chat. but doesn't work. tomorrow.
       // const messagesEndRef = useRef(null)
       // const scrollToBottom = () => {
       // messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
       //}
-    })
  
   }, [])
 
   // useEffect(scrollToBottom, [chatOutput]);
 
-
   {/* chatText.scrollTo(0, chatText.scrollHeight) */}
+
   return (
     <>
       <section className="relative h-[32rem] bg-sky-50 pl-2 border border-sky-300 rounded-lg">

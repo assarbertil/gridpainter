@@ -1,57 +1,63 @@
-import { useState } from "react"
-import { useStopwatch } from "react-timer-hook"
-import { useUserDetails } from "../context/UserDetailsContext.js"
-import { empty } from "../empty.js"
-import { useSocket } from "../hooks/useSocket"
-import { socket } from "../lib/socket.js"
-import { Button } from "./Button.jsx"
-import { Chat } from "./Chat"
-import { EndGameScreen } from "./EndGameScreen.jsx"
-import { Grid } from "./Grid"
-import { NameList } from "./NameList.jsx"
+import { useState, useEffect } from "react";
+import { useStopwatch } from "react-timer-hook";
+import { useUserDetails } from "../context/UserDetailsContext.js";
+import { empty } from "../empty.js";
+import { useSocket } from "../hooks/useSocket";
+import { socket } from "../lib/socket.js";
+import { Button } from "./Button.jsx";
+import { Chat } from "./Chat";
+import { EndGameScreen } from "./EndGameScreen.jsx";
+import { Grid } from "./Grid";
+import { NameList } from "./NameList.jsx";
 
 export function Main() {
-  const [pixels, setPixels] = useState(() => empty.imageData)
-  const [playerColor, setPlayerColor] = useState("")
-  const [userDetails, setUserDetails] = useUserDetails()
+  const [pixels, setPixels] = useState(() => empty.imageData);
+  const [playerColor, setPlayerColor] = useState("");
+  const [userDetails, setUserDetails] = useUserDetails();
   const { seconds, minutes, hours, isRunning, start, reset } = useStopwatch({
     autoStart: false,
-  })
-  const [btnText, setBtnText] = useState("Starta")
-  const [answerPixels, setAnswerPixels] = useState(() => empty.imageData)
-
+  });
+  const [btnText, setBtnText] = useState("Starta");
+  const [answerPixels, setAnswerPixels] = useState(() => empty.imageData);
+  const [colorList, setColorList] = useState([]);
   // Add event listener on mount and remove it on unmount
   useSocket("addPixel", (x, y, color) => {
-    const newColor = [...pixels]
-    newColor[y][x] = color
+    const newColor = [...pixels];
+    newColor[y][x] = color;
 
-    setPixels(newColor)
-  })
+    setPixels(newColor);
+  });
 
   useSocket("startGame", (colors, pixelData) => {
     // Reset stopwatch
-    reset()
-    start()
+    reset();
+    start();
 
     // Change button text
-    setBtnText("Klar")
+    setBtnText("Klar");
 
     // Receive colors here and set each players individual color
-    const individualColor = colors.find(color => color.sid === socket.id)
-    setPlayerColor(individualColor.color)
-
-    setAnswerPixels(pixelData)
-  })
+    const individualColor = colors.find((color) => color.sid === socket.id);
+    setPlayerColor(individualColor.color);
+    setColorList(colors);
+    setAnswerPixels(pixelData);
+  });
 
   function handleClick(x, y) {
-    console.log("Klick på:", { x, y })
+    console.log("Klick på:", { x, y });
 
-    socket.emit("addPixel", x, y, playerColor)
+    socket.emit("addPixel", x, y, playerColor);
   }
 
   function handleStart() {
-    socket.emit("startGame")
+    socket.emit("startGame");
   }
+
+  // Reset image and answer on load
+  useEffect(() => {
+    setPixels(empty.imageData);
+    setAnswerPixels(empty.imageData);
+  }, []);
 
   return (
     <>
@@ -79,13 +85,13 @@ export function Main() {
               <Grid color={answerPixels} border={false} />
             </div>
           </div>
-          <div className="w-64 bg-white border shadow-md rounded-xl border-sky-300">
-            <NameList />
+          <div className="w-64 bg-white border shadow-md rounded-xl border-sky-300 p-8">
+            <NameList colors={colorList} />
           </div>
         </div>
       </div>
 
       <EndGameScreen />
     </>
-  )
+  );
 }

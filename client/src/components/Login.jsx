@@ -52,6 +52,18 @@ export function Login() {
     }
   });
 
+
+  useEffect(() => {
+    if (socket.connected) {
+      socket.disconnect();
+    }
+  }, []);
+
+  const savedGamesBtn = () => {
+    navigate("/savedgames")
+  }
+
+
   return (
     <div className="flex items-center justify-center h-screen gap-x-16">
       <form className="flex flex-col items-center pt-10 pb-24 border shadow-md rounded-xl bg-sky-50 px-14 border-sky-300 gap-y-5">
@@ -94,6 +106,9 @@ export function Login() {
           <li>Dags att måla, försök göra så likt facit som möjligt.</li>
           <li>När ni är klara tryck på klar och se hur likt facit det blev.</li>
         </ul>
+        <div className="flex items-center justify-center mt-6">
+        <button onClick={savedGamesBtn} className="w-40 rounded h-11 bg-sky-300">Tidigare spel</button>
+        </div>
       </div>
     </div>
   );

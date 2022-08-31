@@ -34,6 +34,7 @@ export const handleDisconnect = (socket, io, t) => {
       console.log("Borde spara bild")
       console.log(team.pixelData)
       Image.create({
+        teamName:team.name,
         percentCorrect: "99",
         pixelData: team.pixelData
       })

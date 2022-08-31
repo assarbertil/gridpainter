@@ -52,6 +52,10 @@ export function Login() {
     }
   })
 
+  const savedGamesBtn = () => {
+    navigate("/savedgames")
+  }
+
   return (
     <div className="flex items-center justify-center h-screen gap-x-16">
       <form className="flex flex-col items-center pt-10 pb-24 border shadow-md rounded-xl bg-sky-50 px-14 border-sky-300 gap-y-5">
@@ -92,6 +96,9 @@ export function Login() {
           <li>Du får en färg som du ska måla med genom att...</li>
           <li>Tänk på tiden, du får ...</li>
         </ul>
+        <div className="flex items-center justify-center mt-6">
+        <button onClick={savedGamesBtn} className="w-40 rounded h-11 bg-sky-300">Tidigare spel</button>
+        </div>
       </div>
     </div>
   )

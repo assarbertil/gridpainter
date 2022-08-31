@@ -12,9 +12,12 @@ export function Chat({ inputUsername, inputTeam }) {
   }
 
   //click chat button
-  const chatSubmit = () => {
-    socket.emit("message", inputChat, inputUsername, inputTeam)
-    setInputChat("")
+  const chatSubmit = (e) => {
+    e.preventDefault()
+    if (inputChat.length > 0){
+      socket.emit("message", inputChat, inputUsername, inputTeam)
+      setInputChat("")
+    }
   }
 
   // Add event listener on mount and remove it on unmount
@@ -23,50 +26,37 @@ export function Chat({ inputUsername, inputTeam }) {
       setChatOutput((current) => [...current, { username, message }])
       console.log(`[${team}] ${username}: ${message}`)
     });
-
-      //Try1: scroll to the end of the chat. but doesn't work. tomorrow.
-      // let chatArea = document.getElementById('chat-area'),
-      // chatAreaHeight = chatArea.scrollHeight;
-      // //chatArea.scrollTop = chatAreaHeight;
-      // chatArea.scrollTop(0, chatArea.scrollHeight)
-
+    
       return () => socket.off("message");
-
-      // //Try2: scroll to the end of the chat. but doesn't work. tomorrow.
-      // const messagesEndRef = useRef(null)
-      // const scrollToBottom = () => {
-      // messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
-      //}
  
   }, [])
 
-  // useEffect(scrollToBottom, [chatOutput]);
+  const messagesEndRef = useRef(null)
 
-  {/* chatText.scrollTo(0, chatText.scrollHeight) */}
+  // Scroll when chat updates
+  useEffect(()=>{
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [chatOutput]);
 
   return (
-    <>
-      <section className="relative h-[32rem] bg-sky-50 pl-2 border border-sky-300 rounded-lg">
-        <div>
-          <p>Chat</p>
-          <ul id="chat-area" className="overflow-y-auto h-[24rem] max-w-md">
-            {chatOutput.map(({ username, message }, index) => (
-              <li key={index} >
-                <span className="text-gray-400 ">{username}: </span> 
-                <span >{message}</span>
-              </li>
-           ))}
-          </ul>
-          {/* <div ref={messagesEndRef} /> */}
-        </div>
-        
-        <div className="absolute inset-x-0 bottom-0  border-t-2 border-sky-300  px-2 py-3 bg-sky-100 inline-flex " >
-            <input className="bg-sky-100 outline-none flex-grow flex-1 w-3" value={inputChat} onChange={saveChat} placeholder="chat..." />
-            <button className="ml-4 bg-blue-400 hover:bg-sky-300 rounded-full h-9 w-9 flex-none flex-1 " type="submit" onClick={chatSubmit}>
+      <section className="flex h-full flex-col justify-between bg-sky-50 border border-sky-300 rounded-lg">
+         
+        <ul id="chat-area" className="overflow-y-auto h-full px-2">
+          {chatOutput.map(({ username, message }, index) => (
+            <li  key={index} >
+              <span className="text-gray-400">{username}: </span> 
+              <span className="break-words">{message}</span>
+            </li>
+          ))}
+           <div ref={messagesEndRef} />
+        </ul>
+       
+        <form onSubmit={chatSubmit} className="border-t-2 border-sky-300 h-12 flex-none px-2 py-3 bg-sky-100 flex rounded-b-lg items-center" >
+          <input className="bg-sky-100 outline-none flex-grow flex-1 w-3 break-words"  value={inputChat} onChange={saveChat} placeholder="chat..." />
+          <button className="ml-4 bg-blue-400 hover:bg-sky-300 rounded-full h-9 w-9 flex-none flex-1" type="submit"  >
             <FontAwesomeIcon icon="fa-regular fa-paper-plane" className="text-xl"/>
-            </button>
-        </div>
+          </button>
+        </form>
       </section> 
-    </>
   );
 }

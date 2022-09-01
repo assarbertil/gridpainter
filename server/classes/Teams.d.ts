@@ -4,6 +4,7 @@ interface Player {
     name: string;
 }
 interface Team {
+    id: string;
     name: string;
     state: TeamStates;
     players: Player[];

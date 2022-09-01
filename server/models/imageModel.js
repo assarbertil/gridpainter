@@ -1,6 +1,10 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
 const imageSchema = new mongoose.Schema({
+  teamId: {
+    type: String,
+    required: true,
+  },
   teamName: {
     type: String,
     required: true,
@@ -10,9 +14,9 @@ const imageSchema = new mongoose.Schema({
     required: true,
   },
   percentCorrect: {
-    type: String,
+    type: Number,
     required: true,
   },
-});
+})
 
-export const Image = mongoose.model("Image", imageSchema);
+export const Image = mongoose.model("Image", imageSchema)

@@ -31,16 +31,9 @@ export const handleDisconnect = (socket, io, t) => {
     } else {
       io.to(team.name).emit("endGame")
 
-      console.log("Borde spara bild")
-      console.log(team.pixelData)
-      Image.create({
-        teamName:team.name,
-        percentCorrect: "99",
-        pixelData: team.pixelData
-      })
-      console.log("Borde ha sparat bild")
-      
-      t.team.delete(team.name)
+      setTimeout(() => {
+        t.team.delete(team.name)
+      }, 60 * 1000)
     }
 
     // Send a chat message when a user disconnects

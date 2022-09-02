@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import { Dialog } from "@headlessui/react"
 import { Button } from "./Button"
 import { useSocket } from "../hooks/useSocket.js"

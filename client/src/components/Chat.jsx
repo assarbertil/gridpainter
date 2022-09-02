@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 export function Chat({ inputUsername, inputTeam }) {
   const [inputChat, setInputChat] = useState("")
   const [chatOutput, setChatOutput] = useState([])
+  const messagesEndRef = useRef(null)
 
   //save input chat message
   const saveChat = (e) => {
@@ -30,12 +31,10 @@ export function Chat({ inputUsername, inputTeam }) {
     return () => socket.off("message")
   }, [])
 
-  const messagesEndRef = useRef(null)
-
   // Scroll when chat updates
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [chatOutput])
+    return messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatOutput]);
 
   return (
     <section className="flex h-full flex-col justify-between bg-sky-50 border border-sky-300 rounded-lg">

@@ -1,3 +1,5 @@
+import React from "react"
+
 export function Grid({ color, onClick, border = true }) {
   return (
     <div className="grid grid-cols-[repeat(15,_1fr)] grid-rows-[repeat(15,_1fr)] h-full">

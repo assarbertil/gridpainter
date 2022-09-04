@@ -1,22 +1,24 @@
-import { useEffect, useState } from "react";
-import { socket } from "../lib/socket";
+import { useEffect, useState } from "react"
+import { socket } from "../lib/socket"
 
 export const NameList = ({ colors }) => {
-  const [players, setPlayers] = useState([]);
-  const [teamName, setTeamName] = useState("");
-  const [colorDiv, setColorDiv] = useState([]);
+  const [players, setPlayers] = useState([])
+  const [teamName, setTeamName] = useState("")
+
+  // const result = 0
+
   // Add event listener on mount and remove it on unmount
   useEffect(() => {
     socket.on("roomData", ({ teamName, players }) => {
-      setPlayers(players);
-      setTeamName(teamName);
-      console.log(players);
-    });
+      setPlayers(players)
+      setTeamName(teamName)
+      console.log(players)
+    })
 
-    return () => socket.off("roomData");
-  }, []);
+    return () => socket.off("roomData")
+  }, [])
 
-  console.log(colors);
+  // console.log(colors)
   return (
     <div>
       <h2 className="pb-[1rem] font-medium">Lag: {teamName}</h2>
@@ -36,10 +38,10 @@ export const NameList = ({ colors }) => {
                 ></div>
                 {player.name}
               </div>
-              <div>res</div>
+              {/* <div>{result}%</div> */}
             </li>
           ))}
       </ul>
     </div>
-  );
-};
+  )
+}

@@ -52,11 +52,17 @@ export function Login() {
     }
   });
 
+
   useEffect(() => {
     if (socket.connected) {
       socket.disconnect();
     }
   }, []);
+
+  const savedGamesBtn = () => {
+    navigate("/savedgames")
+  }
+
 
   return (
     <div className="flex items-center justify-center h-screen gap-x-16">
@@ -91,13 +97,18 @@ export function Login() {
       </form>
 
       <div>
-        <h2 className="mb-5 font-medium">Välkommen till Gridpainter</h2>
-        <h3>Så här spelar du : </h3>
-        <ul>
-          <li>Välj ett användar namn och lag</li>
-          <li>Du får en färg som du ska måla med genom att...</li>
-          <li>Tänk på tiden, du får ...</li>
+        <h2 className="mb-5 text-xl font-bold">Välkommen till Gridpainter</h2>
+        <h3 className="mb-3 font-medium">Så här spelar du: </h3>
+        <ul className="ml-5 text-sm list-disc">
+          <li>Välj ett användarnamn och lag.</li>
+          <li>Du skickas vidare till spelet där du blir tilldelad en färg.</li>
+          <li>När 4 spelare är inne i spelet tryck på start.</li>
+          <li>Dags att måla, försök göra så likt facit som möjligt.</li>
+          <li>När ni är klara tryck på klar och se hur likt facit det blev.</li>
         </ul>
+        <div className="flex items-center justify-center mt-6">
+        <button onClick={savedGamesBtn} className="w-40 rounded h-11 bg-sky-300">Tidigare spel</button>
+        </div>
       </div>
     </div>
   );

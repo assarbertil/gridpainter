@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon",
-    "compile-team-class": "tsc classes/Teams.ts --target esnext --declaration --strict --removeComments"
+    "compile-team-class": "tsc classes/Teams.ts --target esnext --declaration --strict --removeComments --moduleResolution node"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "mongoose": "^6.5.3",
+    "nanoid": "^4.0.0",
     "socket.io": "^4.5.1"
   },
   "devDependencies": {

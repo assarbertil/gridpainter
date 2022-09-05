@@ -14,12 +14,31 @@ import mongoose from "mongoose"
 import "dotenv/config"
 import cors from "cors"
 import { Image } from "./models/imageModel.js"
+import { Facit } from "./models/facitModel.js"
+import fs from "fs"
 
 mongoose.connect(process.env.DATABASE_URL)
 const db = mongoose.connection
 db.once("open", () => {
   console.log("Database connected")
+  
+  /*
+  const images = Image.find((error, images)=> {
+    console.log(images)
+    fs.writeFileSync("images.json", JSON.stringify(images))
+  })
+  */
+
+  const rawData = fs.readFileSync("images.json")
+  const images = JSON.parse(rawData)
+
+  images.forEach(image=>Facit.create(image))
+
+  
 })
+
+
+
 
 const app = express()
 const httpServer = createServer(app)

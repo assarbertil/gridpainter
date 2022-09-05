@@ -1,5 +1,5 @@
 import { Image } from "../models/imageModel.js"
-import { image as referenceImage } from "../image.js"
+import { Facit } from "../models/facitModel.js"
 import { getResult } from "../utils/getResult.js"
 
 
@@ -14,22 +14,19 @@ export const handleSaveImage = (socket, io, t) => {
       return
     }
 
-    console.log(team)
-
     const image = await Image.findOne({ teamId: team.id }).exec()
 
     if (!image) {
-      console.log("Ska spara bild")
-
-      const {percent} = getResult(team, referenceImage)
+      const facit = await Facit.findById(team.facitId).exec()
+      const { percent } = getResult(team, facit)
 
       Image.create({
         teamId: team.id,
         teamName: team.name,
         percentCorrect: percent,
         pixelData: team.pixelData,
+        duration: Math.ceil((team.endTime - team.startTime) / 1000),
       })
-     
 
       console.log("Bild sparad")
     } else {

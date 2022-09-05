@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 
 const facitSchema = new mongoose.Schema({
   colors: {
-    type: [Array],
+    type: [String],
     required: true,
   },
   pixelData: {

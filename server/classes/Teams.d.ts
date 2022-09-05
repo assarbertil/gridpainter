@@ -9,6 +9,9 @@ interface Team {
     state: TeamStates;
     players: Player[];
     pixelData: (null | string)[][];
+    startTime?: number;
+    endTime?: number;
+    facitId?: string;
 }
 export declare class Teams {
     private teams;

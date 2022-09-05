@@ -5,6 +5,7 @@ import { useSocket } from "../hooks/useSocket.js"
 import { useNavigate } from "react-router-dom"
 import { socket } from "../lib/socket"
 import { Grid } from "./Grid"
+import axios from "axios"
 
 export const EndGameScreen = ({ pixels, answerPixels }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -20,9 +21,14 @@ export const EndGameScreen = ({ pixels, answerPixels }) => {
   })
 
   const saveImage = () => {
+    socket.emit("saveImage")
+    navigate("/savedgames")
     console.log("Save image")
 
-    socket.emit("saveImage")
+    
+  }
+  const  startPage = () => {
+    navigate("/")
   }
 
   return (
@@ -46,7 +52,8 @@ export const EndGameScreen = ({ pixels, answerPixels }) => {
         </div>
 
         <Button onClick={saveImage}>Spara resultat</Button>
-        {/* knapp startsidan */}
+        <Button onClick={startPage}>Till startsidan</Button>
+       
       </Dialog.Panel>
     </Dialog>
   )

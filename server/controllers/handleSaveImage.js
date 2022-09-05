@@ -1,4 +1,7 @@
 import { Image } from "../models/imageModel.js"
+import { image as referenceImage } from "../image.js"
+import { getResult } from "../utils/getResult.js"
+
 
 // Handles player disconnection
 export const handleSaveImage = (socket, io, t) => {
@@ -18,12 +21,15 @@ export const handleSaveImage = (socket, io, t) => {
     if (!image) {
       console.log("Ska spara bild")
 
+      const {percent} = getResult(team, referenceImage)
+
       Image.create({
         teamId: team.id,
         teamName: team.name,
-        percentCorrect: team.percentCorrect,
+        percentCorrect: percent,
         pixelData: team.pixelData,
       })
+     
 
       console.log("Bild sparad")
     } else {

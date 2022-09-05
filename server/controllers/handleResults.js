@@ -1,5 +1,6 @@
 import { Image } from "../models/imageModel.js"
-import { image } from "../image.js"
+import { Facit } from "../models/facitModel.js"
+import { getResult } from "../utils/getResult.js"
 
 // Handles rättning
 export const handleResults = (socket, io, t) => {
@@ -10,28 +11,17 @@ export const handleResults = (socket, io, t) => {
       return
     }
 
-    const reference = image.pixelData
-    const teamImage = team.pixelData
+    const facit = await Facit.findById(team.facitId).exec()
+    const { percent, count } = getResult(team, facit)
 
-    let count = 0
+    team.endTime = Date.now()
 
-    for (let y = 0; y < 15; y++) {
-      for (let x = 0; x < 15; x++) {
-        const isEqual = reference[x][y] === teamImage[x][y]
+    console.log({
+      start: team.startTime,
+      end: team.endTime,
+      facitId: team.facitId,
+    })
 
-        if (isEqual) {
-          count++
-        }
-      }
-    }
-
-    const percent = (Math.round((count / 225) * 10_000) / 100).toFixed(2)
-
-    console.log("####################")
-    console.log("Procent rätt:", percent)
-    console.log("Antal rätt:", count)
-    console.log("####################")
-
-    socket.emit("endGame", percent, count)
+    io.to(team.name).emit("endGame", percent, count, Math.ceil((team.endTime - team.startTime) / 1000))
   })
 }

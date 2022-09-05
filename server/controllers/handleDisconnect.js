@@ -21,6 +21,8 @@ export const handleDisconnect = (socket, io, t) => {
     // Send endGame event if the game had started
     if (team.state === "inGame") {
       t.team.changeState(team.name, "endGame")
+      team.endTime = Date.now()
+
     }
 
     // Send updated room data to all players in the room

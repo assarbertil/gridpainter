@@ -1,4 +1,7 @@
 import { Image } from "../models/imageModel.js"
+import { Facit } from "../models/facitModel.js"
+import { getResult } from "../utils/getResult.js"
+
 
 // Handles player disconnection
 export const handleSaveImage = (socket, io, t) => {
@@ -11,18 +14,18 @@ export const handleSaveImage = (socket, io, t) => {
       return
     }
 
-    console.log(team)
-
     const image = await Image.findOne({ teamId: team.id }).exec()
 
     if (!image) {
-      console.log("Ska spara bild")
+      const facit = await Facit.findById(team.facitId).exec()
+      const { percent } = getResult(team, facit)
 
       Image.create({
         teamId: team.id,
         teamName: team.name,
-        percentCorrect: team.percentCorrect,
+        percentCorrect: percent,
         pixelData: team.pixelData,
+        duration: Math.ceil((team.endTime - team.startTime) / 1000),
       })
 
       console.log("Bild sparad")

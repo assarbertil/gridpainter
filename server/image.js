@@ -1,5 +1,5 @@
 export const image = {
-  colors: ["#ff0", "#f0f", "#0ff", "#0f0"],
+  colors: ["#222222", "#FDD800", "#FB6AB4", "#0a208a"],
   pixelData: [
     [
       "#f0f",

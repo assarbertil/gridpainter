@@ -1,5 +1,6 @@
 # About
 
+https://gridpainter.vercel.app/ \
 A school project.\
 A gridpainter game that uses a grid to paint togheter with muliple users. \
 Also a chat using socket.io.
@@ -30,6 +31,8 @@ nodemon \
 cors \
 mongoose \
 socket.io \
+axios \
+nanoid
 
 ## Installation frontend
 
@@ -45,4 +48,6 @@ Once started open [http://localhost:3001](http://localhost:3001) to view it in y
 react \
 font-awesome-icons \
 socket.io-client \
+react-timer-hook\
+headlessui \
 tailwind

@@ -21,20 +21,6 @@ mongoose.connect(process.env.DATABASE_URL)
 const db = mongoose.connection
 db.once("open", () => {
   console.log("Database connected")
-  
-  /*
-  const images = Image.find((error, images)=> {
-    console.log(images)
-    fs.writeFileSync("images.json", JSON.stringify(images))
-  })
-  */
-
-  const rawData = fs.readFileSync("images.json")
-  const images = JSON.parse(rawData)
-
-  images.forEach(image=>Facit.create(image))
-
-  
 })
 
 
@@ -78,6 +64,17 @@ app.get("/api", async (req, res) => {
   }
 })
 
+// GET FACIT
+app.get("/api/facit", async (req, res) => {
+  try {
+    const facit = await Facit.find()
+
+    res.json(facit)
+  } catch (err) {
+    res.json(err.message)
+  }
+})
+
 //DELETE IMAGES
 app.delete("/api/delete/:id", async (req, res) => {
   console.log("should delete image")
@@ -100,3 +97,4 @@ app.delete("/api/delete/:id", async (req, res) => {
 httpServer.listen(port, () => {
   console.log("Server is running on port " + port)
 })
+

@@ -14,6 +14,9 @@ interface Team {
   state: TeamStates
   players: Player[]
   pixelData: (null | string)[][]
+  startTime?: number
+  endTime?: number
+  facitId?: string
 }
 
 export class Teams {

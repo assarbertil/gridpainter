@@ -59,7 +59,7 @@ app.get("/api", async (req, res) => {
   }
 })
 
-//POST IMAGES
+//DELETE IMAGES
 app.delete("/api/delete/:id", async (req, res) => {
   console.log("should delete image")
 

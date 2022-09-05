@@ -1,3 +1,6 @@
+import { empty } from "../empty.js"
+import { nanoid } from "nanoid"
+
 type TeamStates = "preGame" | "inGame" | "endGame"
 
 interface Player {
@@ -6,9 +9,14 @@ interface Player {
 }
 
 interface Team {
+  id: string
   name: string
   state: TeamStates
   players: Player[]
+  pixelData: (null | string)[][]
+  startTime?: number
+  endTime?: number
+  facitId?: string
 }
 
 export class Teams {
@@ -19,16 +27,18 @@ export class Teams {
   team = {
     create: (teamName: string): void => {
       const newTeam: Team = {
+        id: nanoid(),
         name: teamName,
         state: "preGame",
         players: [],
+        pixelData: empty.pixelData,
       }
 
       this.teams = [...this.teams, newTeam]
     },
 
     delete: (teamName: string): void => {
-      this.teams = this.teams.filter(team => team.name !== teamName)
+      this.teams = this.teams.filter((team) => team.name !== teamName)
     },
 
     getState: (teamName: string): TeamStates | undefined => {
@@ -39,18 +49,18 @@ export class Teams {
     },
 
     changeState: (teamName: string, state: TeamStates): void => {
-      this.teams = this.teams.map(team => ({
+      this.teams = this.teams.map((team) => ({
         ...team,
         state: team.name === teamName ? state : team.state,
       }))
     },
 
     findByName: (teamName: string): Team | undefined => {
-      return this.teams.find(team => team.name === teamName)
+      return this.teams.find((team) => team.name === teamName)
     },
 
     addPlayer: (teamName: string, player: Player): void => {
-      this.teams = this.teams.map(team => ({
+      this.teams = this.teams.map((team) => ({
         ...team,
         players:
           team.name === teamName ? [...team.players, player] : team.players,
@@ -58,11 +68,11 @@ export class Teams {
     },
 
     removePlayer: (playerSid: string, teamName: string): void => {
-      this.teams = this.teams.map(team => ({
+      this.teams = this.teams.map((team) => ({
         ...team,
         players:
           team.name === teamName
-            ? team.players.filter(user => user.sid !== playerSid)
+            ? team.players.filter((user) => user.sid !== playerSid)
             : team.players,
       }))
     },
@@ -70,6 +80,14 @@ export class Teams {
     getPlayers: (teamName: string): Player[] => {
       const team = this.team.findByName(teamName)
       return team ? team.players : []
+    },
+
+    addPixel: (teamName: string, x: number, y: number, color: string): void => {
+      const team = this.team.findByName(teamName)
+
+      if (team) {
+        team.pixelData[y][x] = color
+      }
     },
   }
 
@@ -80,12 +98,12 @@ export class Teams {
         return undefined
       }
 
-      return team.players.find(user => user.sid === playerSid)
+      return team.players.find((user) => user.sid === playerSid)
     },
 
     getTeam: (playerSid: string): Team | undefined => {
-      return this.teams.find(team =>
-        team.players.some(user => user.sid === playerSid)
+      return this.teams.find((team) =>
+        team.players.some((user) => user.sid === playerSid)
       )
     },
   }

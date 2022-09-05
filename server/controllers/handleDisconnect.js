@@ -1,3 +1,5 @@
+import { Image } from "../models/imageModel.js"
+
 // Handles player disconnection
 export const handleDisconnect = (socket, io, t) => {
   socket.on("disconnect", (reason) => {
@@ -19,6 +21,8 @@ export const handleDisconnect = (socket, io, t) => {
     // Send endGame event if the game had started
     if (team.state === "inGame") {
       t.team.changeState(team.name, "endGame")
+      team.endTime = Date.now()
+
     }
 
     // Send updated room data to all players in the room
@@ -27,9 +31,11 @@ export const handleDisconnect = (socket, io, t) => {
         players: t.team.getPlayers(team.name),
       })
     } else {
-      // TODO
-
       io.to(team.name).emit("endGame")
+
+      setTimeout(() => {
+        t.team.delete(team.name)
+      }, 60 * 1000)
     }
 
     // Send a chat message when a user disconnects

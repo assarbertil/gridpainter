@@ -36,6 +36,7 @@ export const handleJoin = (socket, io, t) => {
     // Send room data with user list when someone joins
     setTimeout(() => {
       io.to(teamName).emit("roomData", {
+        teamName,
         players: t.team.getPlayers(teamName),
       })
     }, 100)

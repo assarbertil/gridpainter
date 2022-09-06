@@ -101,7 +101,8 @@ export function Main() {
           </div>
 
           <div className="bg-white row-span-2 h-[32rem] w-[32rem] rounded-xl border border-sky-300 shadow-md">
-            <Grid color={pixels} onClick={handleClick}></Grid>
+            
+            <Grid color={pixels} onClick={handleClick} onDrag={handleClick}></Grid>
           </div>
 
           <div className="flex items-center justify-center w-64 p-2 bg-white border shadow-md rounded-xl border-sky-300">

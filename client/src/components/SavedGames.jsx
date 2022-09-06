@@ -60,7 +60,6 @@ export function SavedGames() {
           ))}
       </div>
 
-
       <h1 className="text-center font-medium text-xl py-8">Bilder</h1>
       <div className="flex flex-wrap gap-5 m-auto">
         {imageData &&
@@ -68,12 +67,11 @@ export function SavedGames() {
             <div key={image._id}>
               <div
                 className="border rounded-xl overflow-clip bg-white w-36 h-36"
-                
               >
                 <Grid color={image.pixelData} border={false} />
               </div>
               <h2 className="text-sm font-medium">Lag: {image.teamName}</h2>
-              <p className="text-sm">{image.percentCorrect} % rätt</p>
+              <p className="text-sm mb-1">{image.percentCorrect} % rätt</p>
               <p className="text-sm">{image.duration} sekunder</p>
             </div>
           ))}

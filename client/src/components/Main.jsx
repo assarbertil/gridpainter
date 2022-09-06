@@ -49,7 +49,6 @@ export function Main() {
 
   function handleClick(x, y) {
     console.log("Klick på:", { x, y })
-
     socket.emit("addPixel", x, y, playerColor)
   }
 

@@ -105,7 +105,7 @@ export function Main() {
           </div>
 
           <div className="flex items-center justify-center w-64 p-2 bg-white border shadow-md rounded-xl border-sky-300">
-            <div className="w-[12rem] h-[12rem] border border-sky-900">
+            <div className="w-[12rem] h-[12rem]">
               <Grid color={answerPixels} border={false} />
             </div>
           </div>

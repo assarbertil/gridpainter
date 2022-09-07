@@ -52,7 +52,7 @@ export const EndGameScreen = ({ pixels, answerPixels }) => {
     >
       <div className="fixed inset-0 z-50 bg-black/30" aria-hidden="true" />
 
-      <Dialog.Panel className="fixed flex-col inset-0 m-auto flex items-center justify-center p-4 w-[32rem] h-[32rem] border bg-sky-50 rounded-xl  z-50 border-sky-300">
+      <Dialog.Panel className="fixed flex-col inset-0 m-auto flex items-center justify-center p-4 w-[36rem] h-[36rem] border bg-sky-50 rounded-xl  z-50 border-sky-300">
         <Dialog.Title className="mb-4 text-lg font-semibold">Resultat: <div className="inline text-xl">
               {percentCorrect > 0 && <FontAwesomeIcon icon="fa-solid fa-star" className="text-amber-500" />}
               {percentCorrect >= 20 && <FontAwesomeIcon icon="fa-solid fa-star" className="text-amber-500" />}

@@ -22,7 +22,6 @@ export const handleDisconnect = (socket, io, t) => {
     if (team.state === "inGame") {
       t.team.changeState(team.name, "endGame")
       team.endTime = Date.now()
-
     }
 
     // Send updated room data to all players in the room
@@ -33,9 +32,9 @@ export const handleDisconnect = (socket, io, t) => {
     } else {
       io.to(team.name).emit("endGame")
 
-      setTimeout(() => {
-        t.team.delete(team.name)
-      }, 60 * 1000)
+      t.team.delete(team.name)
+      // setTimeout(() => {
+      // }, 60 * 1000)
     }
 
     // Send a chat message when a user disconnects

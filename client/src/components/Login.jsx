@@ -69,7 +69,6 @@ export function Login() {
     <div className="flex items-center justify-center h-screen gap-x-16">
       <form className="flex flex-col items-center pt-10 pb-24 border shadow-md rounded-xl bg-sky-50 px-14 border-sky-300 gap-y-5">
         <h3 className="flex font-medium">Logga in</h3>
-
         <div className="flex flex-col gap-y-2 ">
           <label htmlFor="asdasdasd">Användarnamn:</label>
           <input
@@ -113,3 +112,6 @@ export function Login() {
     </div>
   );
 }
+
+
+ 

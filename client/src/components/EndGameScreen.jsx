@@ -5,6 +5,7 @@ import { useSocket } from "../hooks/useSocket.js"
 import { useNavigate } from "react-router-dom"
 import { socket } from "../lib/socket"
 import { Grid } from "./Grid"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 
 export const EndGameScreen = ({ pixels, answerPixels }) => {
@@ -49,17 +50,23 @@ export const EndGameScreen = ({ pixels, answerPixels }) => {
         socket.disconnect()
       }}
     >
-      <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+      <div className="fixed inset-0 z-50 bg-black/30" aria-hidden="true" />
 
-      <Dialog.Panel className="fixed flex-col inset-0 m-auto flex items-center justify-center p-4 w-[32rem] h-[32rem] border bg-sky-50 rounded-xl border-sky-300">
-        <Dialog.Title>Resultat</Dialog.Title>
+      <Dialog.Panel className="fixed flex-col inset-0 m-auto flex items-center justify-center p-4 w-[32rem] h-[32rem] border bg-sky-50 rounded-xl  z-50 border-sky-300">
+        <Dialog.Title className="mb-4 text-lg font-semibold">Resultat: <div className="inline text-xl">
+              {percentCorrect > 0 && <FontAwesomeIcon icon="fa-solid fa-star" className="text-amber-500" />}
+              {percentCorrect >= 20 && <FontAwesomeIcon icon="fa-solid fa-star" className="text-amber-500" />}
+              {percentCorrect >= 40 && <FontAwesomeIcon icon="fa-solid fa-star" className="text-amber-500" />}
+              {percentCorrect >= 60 && <FontAwesomeIcon icon="fa-solid fa-star" className="text-amber-500" />}
+              {percentCorrect >= 80 && <FontAwesomeIcon icon="fa-solid fa-star" className="text-amber-500" />}
+            </div></Dialog.Title>
 
         {!playerDisconnected && (
           <>
-            <div>* * * *</div>
-            <div>Procent rätt: {percentCorrect}%</div>
-            <div>Antal rätt: {countCorrect}</div>
-            <div>Tid: {duration} sekunder</div>
+            
+            <div><span className="font-semibold">Procent rätt: </span>{percentCorrect}%</div>
+            <div><span className="font-semibold">Antal rätt: </span>{countCorrect}</div>
+            <div><span className="font-semibold">Tid: </span>{duration} sekunder</div>
           </>
           )
         }
@@ -71,7 +78,7 @@ export const EndGameScreen = ({ pixels, answerPixels }) => {
           <Grid color={answerPixels} border={false} />
         </div>
 
-        <div className="flex gap-2 flex-col mt-1">
+        <div className="flex flex-col gap-2 mt-1">
         {!playerDisconnected && <Button onClick={saveImage}>Spara resultat</Button>}
         <Button onClick={startPage}>Till startsidan</Button>
         </div>

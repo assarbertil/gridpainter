@@ -3,6 +3,6 @@ export const handleChatMessage = (socket, io, t) => {
   socket.on("message", (inputChat, inputUsername, inputTeam) => {
     console.log(`Chat: [${inputTeam}] ${inputUsername}: ${inputChat}`)
 
-    io.in(inputTeam).emit("message", inputChat, inputUsername)
+    io.in(inputTeam).emit("message", inputChat, inputUsername, socket.id)
   })
 }

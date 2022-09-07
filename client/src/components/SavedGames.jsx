@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import { Grid } from "./Grid"
 
-const siteUrl = process.env.REACT_APP_VERCEL_URL || "http://localhost:3001"
+const siteUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "https://gridpainter.onrender.com"
 
 export function SavedGames() {
   const navigate = useNavigate()

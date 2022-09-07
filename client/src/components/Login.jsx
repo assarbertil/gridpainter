@@ -1,69 +1,67 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useUserDetails } from "../context/UserDetailsContext.js";
-import { socket } from "../lib/socket.js";
-import { useSocket } from "../hooks/useSocket.js";
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useUserDetails } from "../context/UserDetailsContext.js"
+import { useSocket } from "../hooks/useSocket.js"
+import { socket } from "../lib/socket.js"
 import { Button } from "./Button"
 
 export function Login() {
-  const [DisabledBtn, setDisabledBtn] = useState(true);
-  const [InputUsername, setInputUsername] = useState("");
-  const [InputTeam, setInputTeam] = useState("");
-  const [userDetails, setUserDetails] = useUserDetails();
+  const [DisabledBtn, setDisabledBtn] = useState(true)
+  const [InputUsername, setInputUsername] = useState("")
+  const [InputTeam, setInputTeam] = useState("")
+  const [userDetails, setUserDetails] = useUserDetails()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  // making button enabled
+  // making button enabled when form is valid
   useEffect(() => {
     if (InputUsername !== "" && InputTeam !== "") {
-      setDisabledBtn(false);
-    } else if (InputUsername === "" && InputTeam === "") setDisabledBtn(true);
-  }, [InputUsername && InputTeam]);
+      setDisabledBtn(false)
+    } else if (InputUsername === "" && InputTeam === "") setDisabledBtn(true)
+  }, [InputUsername, InputTeam])
 
   // Save inputvalues
   const saveUsername = (e) => {
-    setInputUsername(e.target.value);
-  };
+    setInputUsername(e.target.value)
+  }
   const saveTeam = (e) => {
-    setInputTeam(e.target.value);
-  };
+    setInputTeam(e.target.value)
+  }
 
   // Sending info to socket
   const sendUserInfo = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    socket.connect();
+    socket.connect()
 
-    socket.emit("join", InputTeam, InputUsername);
-  };
+    socket.emit("join", InputTeam, InputUsername)
+  }
 
+  // Prevents player from joining a full team
   useSocket("blockJoin", (isBlocked) => {
-    console.log(isBlocked);
     if (!isBlocked) {
       setUserDetails({
         username: InputUsername,
         team: InputTeam,
-      });
+      })
 
-      console.log("Ska skickas vidare");
-      navigate("/main");
+      navigate("/main")
     } else {
-      console.log("Ska inte skickas vidare");
-      alert("Rummet är redan fullt");
+      alert("Rummet är redan fullt")
     }
-  });
+  })
 
-
+  // If a connected player is on the login page they should be disconnected
   useEffect(() => {
     if (socket.connected) {
-      socket.disconnect();
+      socket.disconnect()
     }
-  }, []);
+  }, [])
 
+  // Links to saved games on click
   const savedGamesBtn = () => {
     navigate("/savedgames")
   }
-
 
   return (
     <div className="flex items-center justify-center h-screen gap-x-16">
@@ -87,10 +85,7 @@ export function Login() {
           />
         </div>
 
-        <Button
-          disabled={DisabledBtn}
-          onClick={sendUserInfo}
-        >
+        <Button disabled={DisabledBtn} onClick={sendUserInfo}>
           Spela
         </Button>
       </form>
@@ -106,12 +101,9 @@ export function Login() {
           <li>När ni är klara tryck på klar och se hur likt facit det blev.</li>
         </ul>
         <div className="flex items-center justify-center mt-6">
-        <Button onClick={savedGamesBtn}>Tidigare spel</Button>
+          <Button onClick={savedGamesBtn}>Tidigare spel</Button>
         </div>
       </div>
     </div>
-  );
+  )
 }
-
-
- 

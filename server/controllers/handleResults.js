@@ -1,4 +1,3 @@
-import { Image } from "../models/imageModel.js"
 import { Facit } from "../models/facitModel.js"
 import { getResult } from "../utils/getResult.js"
 
@@ -11,17 +10,18 @@ export const handleResults = (socket, io, t) => {
       return
     }
 
-    const facit = await Facit.findById(team.facitId).exec()
-    const { percent, count } = getResult(team, facit)
+    const facit = await Facit.findById(team.facitId).exec() // Find the facit in the database
+    const { percent, count } = getResult(team, facit) // This calculates the result
 
+    // Mark end time timestamp
     team.endTime = Date.now()
 
-    console.log({
-      start: team.startTime,
-      end: team.endTime,
-      facitId: team.facitId,
-    })
-
-    io.to(team.name).emit("endGame", percent, count, Math.ceil((team.endTime - team.startTime) / 1000))
+    // Send endGame event to the team
+    io.to(team.name).emit(
+      "endGame",
+      percent,
+      count,
+      Math.ceil((team.endTime - team.startTime) / 1000)
+    )
   })
 }

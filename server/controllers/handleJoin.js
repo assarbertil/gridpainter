@@ -1,12 +1,6 @@
-import { empty } from "../empty.js"
-
 export const handleJoin = (socket, io, t) => {
   socket.on("join", async (teamName, username) => {
-    console.log(username, "joined", teamName)
-
     // Create a room if it doesn't exist
-    // Join a room if it exists
-
     if (t.team.findByName(teamName) === undefined) {
       t.team.create(teamName)
     }
@@ -15,6 +9,7 @@ export const handleJoin = (socket, io, t) => {
     if (t.team.findByName(teamName).players.length < 4) {
       await socket.join(teamName)
 
+      // Add player to team object
       t.team.addPlayer(teamName, {
         sid: socket.id,
         name: username,
@@ -27,13 +22,14 @@ export const handleJoin = (socket, io, t) => {
         "Server"
       )
 
+      // Send back ok status to join room
       socket.emit("blockJoin", false)
     } else {
-      console.log("Laget är fullt")
       socket.emit("blockJoin", true)
     }
 
-    // Send room data with user list when someone joins
+    // Send user list when someone joins
+    // Delayed to ensure we pick it up on the front end
     setTimeout(() => {
       io.to(teamName).emit("roomData", {
         teamName,

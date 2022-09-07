@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import { Grid } from "./Grid"
 
+const siteUrl = process.env.REACT_APP_VERCEL_URL || "http://localhost:3001"
+
 export function SavedGames() {
   const navigate = useNavigate()
   const backBtn = () => {
@@ -16,7 +18,7 @@ export function SavedGames() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api")
+      .get(`${siteUrl}/api`)
       .then((response) => {
         // console.log(response.data)
         setImageData(response.data)
@@ -28,7 +30,7 @@ export function SavedGames() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/facit")
+      .get(`${siteUrl}/api/facit`)
       .then((response) => {
         // console.log(response.data)
         setFacitData(response.data)
@@ -40,18 +42,18 @@ export function SavedGames() {
 
 
   return (
-    <div className="flex flex-col m-20 justify-center container mx-auto">
-      <button onClick={backBtn} className="m-2 self-start">
+    <div className="container flex flex-col justify-center m-20 mx-auto">
+      <button onClick={backBtn} className="self-start m-2">
         <FontAwesomeIcon icon="fa-solid fa-angle-left" /> Tillbaka
       </button>
 
-      <h1 className="text-center font-medium text-xl py-8">Facit</h1>
+      <h1 className="py-8 text-xl font-medium text-center">Facit</h1>
       <div className="flex flex-wrap gap-5 m-auto">
         {facitData &&
           facitData.map((facit) => (
             <div key={facit._id}>
               <div
-                className="border rounded-xl overflow-clip bg-white w-36 h-36"
+                className="bg-white border rounded-xl overflow-clip w-36 h-36"
                 
               >
                 <Grid color={facit.pixelData} border={false} />
@@ -61,13 +63,13 @@ export function SavedGames() {
       </div>
 
 
-      <h1 className="text-center font-medium text-xl py-8">Bilder</h1>
+      <h1 className="py-8 text-xl font-medium text-center">Bilder</h1>
       <div className="flex flex-wrap gap-5 m-auto">
         {imageData &&
           imageData.map((image) => (
             <div key={image._id}>
               <div
-                className="border rounded-xl overflow-clip bg-white w-36 h-36"
+                className="bg-white border rounded-xl overflow-clip w-36 h-36"
                 
               >
                 <Grid color={image.pixelData} border={false} />

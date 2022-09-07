@@ -1,3 +1,6 @@
+/**
+ * Primary button component used throughout the app
+ */
 export const Button = ({ onClick, children, disabled }) => {
   return (
     <button

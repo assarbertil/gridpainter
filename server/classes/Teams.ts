@@ -1,5 +1,5 @@
-import { empty } from "../empty.js"
 import { nanoid } from "nanoid"
+import { empty } from "../empty.js"
 
 type TeamStates = "preGame" | "inGame" | "endGame"
 
@@ -20,7 +20,7 @@ interface Team {
 }
 
 export class Teams {
-  private teams: Team[] = []
+  teams: Team[] = []
 
   constructor() {}
 
@@ -111,28 +111,28 @@ export class Teams {
 
 // Testing
 /* 
-const teams = new Teams()
+const t = new Teams()
 
 console.log("Should be empty array")
-console.log(teams.teams)
+console.log(t.teams)
 
-teams.team.create("Team 1")
+t.team.create("Team 1")
 
-console.log(teams.teams)
+console.log(t.teams)
 
-teams.team.addPlayer("Team 1", { sid: "ply_1xfg", name: "Assar" })
+t.team.addPlayer("Team 1", { sid: "ply_1xfg", name: "Assar" })
 
-console.log(teams.teams)
+console.log(t.teams)
 
-const playerBySid = teams.player.findBySid("ply_1xfg")
+const playerBySid = t.player.findBySid("ply_1xfg")
 console.log(playerBySid)
 
-const teamOfPlayer = teams.player.getTeam(playerBySid!.sid)
+const teamOfPlayer = t.player.getTeam(playerBySid!.sid)
 console.log(teamOfPlayer)
 
-teams.team.removePlayer("ply_1xfg", "Team 1")
-console.log(teams.teams)
+t.team.removePlayer("ply_1xfg", "Team 1")
+console.log(t.teams)
 
-teams.team.delete("Team 1")
-console.log(teams.teams)
+t.team.delete("Team 1")
+console.log(t.teams)
  */

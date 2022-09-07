@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useStopwatch } from "react-timer-hook"
 import { useUserDetails } from "../context/UserDetailsContext.js"
 import { empty } from "../empty.js"
@@ -13,8 +13,8 @@ import { NameList } from "./NameList.jsx"
 export function Main() {
   const [pixels, setPixels] = useState(() => empty.imageData)
   const [playerColor, setPlayerColor] = useState("")
-  const [userDetails, setUserDetails] = useUserDetails()
-  const { seconds, minutes, hours, isRunning, start, reset } = useStopwatch({
+  const [userDetails] = useUserDetails()
+  const { seconds, minutes, start, reset } = useStopwatch({
     autoStart: false,
   })
   const [btnText, setBtnText] = useState("Starta")
@@ -22,7 +22,7 @@ export function Main() {
   const [colorList, setColorList] = useState([])
   const [gameStarted, setGameStarted] = useState(false)
 
-  // Add event listener on mount and remove it on unmount
+  // Adds pixel to state when event is received
   useSocket("addPixel", (x, y, color) => {
     const newColor = [...pixels]
     newColor[y][x] = color
@@ -30,6 +30,7 @@ export function Main() {
     setPixels(newColor)
   })
 
+  // Does stuff when game starts
   useSocket("startGame", (colors, pixelData) => {
     // Reset stopwatch
     reset()
@@ -47,12 +48,12 @@ export function Main() {
     setGameStarted(true)
   })
 
-  function handleClick(x, y) {
-    console.log("Klick på:", { x, y })
-
+  // Called when a player clicks on a cell
+  function handleGridClick(x, y) {
     socket.emit("addPixel", x, y, playerColor)
   }
 
+  // Controls the primary button
   const handleButton = () => {
     if (!gameStarted) {
       socket.emit("startGame")
@@ -61,9 +62,10 @@ export function Main() {
     }
   }
 
-  // Reset image and answer on load
+  // Reset pixels and answer pixels on load
   useEffect(() => {
     setPixels(empty.imageData)
+
     setAnswerPixels(empty.imageData)
   }, [])
 
@@ -84,8 +86,7 @@ export function Main() {
           <div className="mb-3 text-xl font-medium">Gridpainter</div>
 
           <div className="text-xs font-medium">
-            {minutes > 0 && <>{minutes} minuter</>}
-            {seconds} sekunder{" "}
+            {minutes > 0 && <>{minutes} minuter</>} {seconds} sekunder
             <Button onClick={handleButton} disabled={gameStarted && !canRätta}>
               {btnText}
             </Button>
@@ -101,7 +102,7 @@ export function Main() {
           </div>
 
           <div className="bg-white row-span-2 h-[32rem] w-[32rem] rounded-xl border border-sky-300 shadow-md">
-            <Grid color={pixels} onClick={handleClick}></Grid>
+            <Grid color={pixels} onClick={handleGridClick}></Grid>
           </div>
 
           <div className="flex items-center justify-center w-64 p-2 bg-white border shadow-md rounded-xl border-sky-300">
@@ -110,7 +111,7 @@ export function Main() {
             </div>
           </div>
 
-          <div className="w-64 bg-white border shadow-md rounded-xl border-sky-300 p-8">
+          <div className="w-64 p-8 bg-white border shadow-md rounded-xl border-sky-300">
             <NameList colors={colorList} />
           </div>
         </div>

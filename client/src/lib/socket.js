@@ -1,5 +1,6 @@
 import { io } from "socket.io-client"
 
+// Shared socket instance
 export const socket = io(
   process.env.NODE_ENV === "development"
     ? "ws://localhost:3001"
@@ -7,14 +8,8 @@ export const socket = io(
   { autoConnect: false }
 )
 
-socket.onAny((event, ...args) => {
-  console.log(`Tog emot event ${event}`, args)
-})
-
-socket.on("userInfo", (team, userName) => {
-  console.log("Loggade in i lag:", team, " med användarnamn:", userName)
-})
-
-socket.on("roomData", users => {
-  console.log(users)
-})
+if (process.env.NODE_ENV === "development") {
+  socket.onAny((event, ...args) => {
+    console.log(`Tog emot event ${event}`, args)
+  })
+}

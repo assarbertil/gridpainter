@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserDetails } from "../context/UserDetailsContext.js";
 import { socket } from "../lib/socket.js";
 import { useSocket } from "../hooks/useSocket.js";
+import { Button } from "./Button"
 
 export function Login() {
   const [DisabledBtn, setDisabledBtn] = useState(true);
@@ -87,13 +88,12 @@ export function Login() {
           />
         </div>
 
-        <button
+        <Button
           disabled={DisabledBtn}
           onClick={sendUserInfo}
-          className="w-full rounded h-11 bg-sky-300"
         >
           Spela
-        </button>
+        </Button>
       </form>
 
       <div>
@@ -107,7 +107,7 @@ export function Login() {
           <li>När ni är klara tryck på klar och se hur likt facit det blev.</li>
         </ul>
         <div className="flex items-center justify-center mt-6">
-        <button onClick={savedGamesBtn} className="w-40 rounded h-11 bg-sky-300">Tidigare spel</button>
+        <Button onClick={savedGamesBtn}>Tidigare spel</Button>
         </div>
       </div>
     </div>

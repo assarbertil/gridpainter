@@ -71,8 +71,10 @@ export const EndGameScreen = ({ pixels, answerPixels }) => {
           <Grid color={answerPixels} border={false} />
         </div>
 
+        <div className="flex gap-2 flex-col mt-1">
         {!playerDisconnected && <Button onClick={saveImage}>Spara resultat</Button>}
         <Button onClick={startPage}>Till startsidan</Button>
+        </div>
        
       </Dialog.Panel>
     </Dialog>

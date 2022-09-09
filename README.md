@@ -7,7 +7,7 @@ Also a chat using socket.io.
 
 <p align="center">
   <figure>
-     <img src="https://raw.githubusercontent.com/assarbertil/notes/main/screenshot.png" alt="App screenshot" />
+     <img src="https://raw.githubusercontent.com/assarbertil/gridpainter/main/screenshot.png" alt="App screenshot" />
     <figcaption>
       <p align="center">
         Demo
